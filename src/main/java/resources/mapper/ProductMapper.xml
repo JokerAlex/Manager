@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.manager.dao.ProductMapper">
+
+    <resultMap id="productMap" type="Product">
+        <id property="productId" column="product_id"/>
+        <result property="productName" column="product_name"/>
+        <result property="productPrice" column="product_price"/>
+        <result property="productComment" column="product_comment"/>
+    </resultMap>
+
+    <!-- 获取所有产品 -->
+    <select id="getAll" resultMap="productMap">
+        SELECT product_id,product_name,product_price,product_comment FROM product;
+    </select>
+
+    <!-- 查询某件产品 -->
+    <select id="getOne" resultMap="productMap">
+        SELECT product_id,product_name,product_price,product_comment FROM product
+        <where>
+            <if test="productId != null and !product.trim().equals(&quot;&quot;)">
+                product_id = #{productId}
+            </if>
+            <if test="productName != null and !product.trim().equals(&quot;&quot;)">
+                product_name LIKE CONCAT('%', #{tableName},'%')
+            </if>
+        </where>
+    </select>
+
+    <!-- 插入一件产品 -->
+    <insert id="insertOne" parameterType="Product">
+        INSERT INTO product(product_name, product_price, product_comment) VALUES (#{productName},#{productPrice},#{productComment});
+    </insert>
+
+    <!-- 批量插入产品 -->
+    <insert id="insertBatch">
+        INSERT INTO product(product_name, product_price, product_comment) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.productName},#{item.productPrice},#{item.productComment})
+        </foreach>
+    </insert>
+
+    <!-- 产品信息修改 -->
+    <update id="updateProduct" parameterType="Product">
+        UPDATE product
+        <set>
+            <if test="productName != null">product_name = #{productName},</if>
+            <if test="productPrice != null">product_price = #{productPrice},</if>
+            <if test="productComment != null">product_comment = #{productComment}</if>
+        </set>
+        WHERE product_id = #{productId};
+    </update>
+
+</mapper>

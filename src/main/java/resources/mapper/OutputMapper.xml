@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.manager.dao.OutputMapper">
+    <resultMap id="outputMap" type="Output">
+        <result property="year" column="years_years_id"/>
+        <result property="month" column="month_month_id"/>
+        <result property="productId" column="output_product_id"/>
+        <result property="productName" column="output_product_name"/>
+        <result property="xiaDan" column="output_xiadan"/>
+        <result property="muGong" column="output_mugong"/>
+        <result property="youFang" column="output_youfang"/>
+        <result property="baoZhuang" column="output_baozhuang"/>
+        <result property="teDing" column="output_teding"/>
+        <result property="beiJing" column="output_beijing"/>
+        <result property="beiJingTeDing" column="output_beijingteding"/>
+        <result property="bendDiHeTong" column="output_bendihetong"/>
+        <result property="waiDiHeTong" column="output_waidihetong"/>
+        <result property="deng" column="output_deng"/>
+    </resultMap>
+
+    <!-- 根据年月获取产值 -->
+    <select id="getAll" resultMap="outputMap">
+        SELECT
+            years_years_id,
+            month_month_id,
+            output_product_id,
+            output_product_name,
+            output_xiadan,
+            output_mugong,
+            output_youfang,
+            output_baozhuang,
+            output_teding,
+            output_beijing,
+            output_beijingteding,
+            output_bendihetong,
+            output_waidihetong,
+            output_deng
+        FROM output
+        WHERE years_years_id = #{year} AND month_month_id = #{month};
+    </select>
+
+    <!-- 错误信息修正 -->
+    <update id="changeOutput" parameterType="Output">
+        UPDATE output
+        <set>
+            <if test="xiaDan != null">output_xiadan = #{xiaDan},</if>
+            <if test="muGong != null">output_mugong = #{muGong},</if>
+            <if test="youFang != null">output_youfang = #{youFang},</if>
+            <if test="baoZhuang != null">output_baozhuang = #{baoZhuang},</if>
+            <if test="teDing != null">output_teding = #{teDing},</if>
+            <if test="beiJing != null">output_bejing = #{beiJIng},</if>
+            <if test="beiJingTeDing != null">output_beijingteding = #{beiJingTeding},</if>
+            <if test="bengDiHeTong != null">output_benddigetong = #{bendDiHeTong},</if>
+            <if test="waiDiHeTong != null">output_waidihetong = #{waiDiHeTong},</if>
+            <if test="deng != null">output_deng = #{deng}</if>
+        </set>
+        WHERE years_years_id = #{year} AND month_month_id = #{month} AND output_product_id = {productId} AND
+        output_product_name = {productName};
+    </update>
+
+</mapper>
