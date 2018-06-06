@@ -3,4 +3,263 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.manager.dao.ProduceMapper">
 
+    <resultMap id="produceMapper" type="Produce">
+        <result property="year" column="years_years_id"/>
+        <result property="month" column="month_month_id"/>
+        <result property="day" column="day_day_id"/>
+        <result property="productId" column="produce_prodcut_id"/>
+        <result property="productName" column="produce_product_name"/>
+        <result property="xiaDan" column="produce_xiadan" />
+        <result property="xiaDanComment" column="produce_xiadan_comment"/>
+        <result property="muGong" column="produce_mugong"/>
+        <result property="muGongComment" column="produce_mugong_comment"/>
+        <result property="youFang" column="produce_youfang"/>
+        <result property="youFangComment" column="produce_youfang_comment"/>
+        <result property="baoZhuang" column="produce_baozhuang"/>
+        <result property="baoZhuangComment" column="produce_baozhuang_comment"/>
+        <result property="teDing" column="produce_teding"/>
+        <result property="teDingComment" column="produce_teding_comment"/>
+        <result property="beiJing" column="produce_beijing"/>
+        <result property="beiJingComment" column="produce_beijing_comment"/>
+        <result property="beiJingTeDing" column="produce_beijingteding"/>
+        <result property="beiJingTeDingComment" column="produce_beijingteding_comment"/>
+        <result property="bendDiHeTong" column="produce_benddihetong"/>
+        <result property="bengDiHeTongComment" column="produce_dengdihetong_comment"/>
+        <result property="waiDiHeTong" column="produce_waidihetong"/>
+        <result property="waiDiHeTongComment" column="produce_waidihetong_comment"/>
+        <result property="deng" column="produce_deng"/>
+        <result property="dengComment" column="produce_deng_comment"/>
+    </resultMap>
+
+    <!-- 增加产品 -->
+    <insert id="insertOne" parameterType="Produce">
+        INSERT INTO produce (years_years_id, month_month_id, day_day_id, produce_product_id, produce_product_name)
+        VALUES (#{year}, #{month}, #{day}, #{productId}, #{productName});
+    </insert>
+    
+    <!-- 批量导入产品 -->
+    <insert id="insertBatch" parameterType="Produce">
+        INSERT INTO produce (years_years_id,
+        month_month_id,
+        day_day_id,
+        produce_product_id,
+        produce_product_name,
+        produce_xiadan,
+        produce_xiadan_comment,
+        produce_mugong,
+        produce_mugong_comment,
+        produce_youfang,
+        produce_youfang_comment,
+        produce_baozhuang,
+        produce_baozhuang_comment,
+        produce_teding,
+        produce_teding_comment,
+        produce_beijing,
+        produce_beijing_comment,
+        produce_beijingteding,
+        produce_beijingteding_comment,
+        produce_bendihetong,
+        produce_bendihetong_comment,
+        produce_waidihetong,
+        produce_waidihetong_comment,
+        produce_deng,
+        produce_deng_comment)
+        VALUES
+            <foreach item="item" collection="produceList" separator=",">
+                (
+                #{item.year},#{item.month},#{item.day},
+                #{item.productId},#{item.productName},
+                #{item.xiaDan},#{item.xiaDanComment},
+                #{item.muGong},#{item.muGongComment},
+                #{item.youFang},#{item.youFangComment},
+                #{item.baoZhuang},#{item.baoZhuangComment},
+                #{item.teDing},#{item.teDingComment},
+                #{item.beiJing},#{item.beiJingComment},
+                #{item.beiJingTeDing},#{item.beiJingTeDingComment},
+                #{item.benDiHeTong},#{item.benDiHeTongComment},
+                #{item.waiDiHeTong},#{item.wiaDiHeTongComment},
+                #{item.deng},#{item.dengComment}
+                )
+            </foreach>
+    </insert>
+
+    <!-- 获取进度报表 -->
+    <select id="getAll" resultMap="produceMapper">
+        SELECT years_years_id,
+            month_month_id,
+            day_day_id,
+            produce_product_id,
+            produce_product_name,
+            produce_xiadan,
+            produce_xiadan_comment,
+            produce_mugong,
+            produce_mugong_comment,
+            produce_youfang,
+            produce_youfang_comment,
+            produce_baozhuang,
+            produce_baozhuang_comment,
+            produce_teding,
+            produce_teding_comment,
+            produce_beijing,
+            produce_beijing_comment,
+            produce_beijingteding,
+            produce_beijingteding_comment,
+            produce_bendihetong,
+            produce_bendihetong_comment,
+            produce_waidihetong,
+            produce_waidihetong_comment,
+            produce_deng,
+            produce_deng_comment
+        FROM produce
+        WHERE years_years_id = #{year} AND month_month_id = #{month} AND day_day_id = #{day};
+    </select>
+
+    <!-- 进度更新 -->
+    <update id="updateOne" parameterType="Produce">
+        UPDATE produce
+        <set>
+            <!-- 下单增加 -->
+            <if test="xiaDan != 0">
+                produce_xiadan = produce_xiadan + #{xiaDan},
+                produce_xiadan_comment = #{xiaDanComment}
+            </if>
+
+            <!-- 木工增加，下单减少 -->
+            <if test="muGong != 0">
+                produce_mugong = produce_mugong + #{muGong},
+                produce_xiadan = produce_xiadan -#{muGong},
+                produce_mugong_comment = #{muGongComment}
+            </if>
+
+            <!-- 油房增加，木工减少 -->
+            <if test="youFang != 0">
+                produce_youfang = produce_youfang + #{youFang},
+                produce_mugong = produce_mugong -#{youFang},
+                produce_youfang_comment = #{youFangComment}
+            </if>
+
+            <!-- 包装增加，油房减少 -->
+            <if test="baoZhuang != 0">
+                produce_baozhuang = produce_baozhuang + #{baoZhuang},
+                produce_youfang = produce_youfang - #{baoZhuang},
+                produce_baozhuang_comment = #{baoZhaungComment}
+            </if>
+
+            <!-- 特定增加，油房减少 -->
+            <if test="teDing != 0">
+                produce_teding = produce_teding + #{teDing},
+                produce_youfang = produce_youfang -#{teDing},
+                produce_teding_comment = #{teDingComment}
+            </if>
+
+            <!-- 北京增加，包装减少 -->
+            <if test="beiJing != 0">
+                produce_beijing = produce_beijing + #{beiJing},
+                produce_baozhuang = produce_baozhuang - #{beiJing},
+                produce_beijing_comment = #{beiJingComment}
+            </if>
+
+            <!-- 北京特定增加，特定减少 -->
+            <if test="beiJingTeDing != 0">
+                produce_beijingteding = produce_beijingteding + #{beiJingTeDing},
+                produce_teding = produce_teding - #{beiJingTeDing},
+                produce_beijingteding_comment = #{beiJingTeDingcomment}
+            </if>
+
+            <!-- 本地合同，自己增加、减少 -->
+            <if test="bendDiHeTong != 0">
+                produce_bendihetong = produce_bendihetong + #{benDinHeTong},
+                produce_bendihetong_comment = #{bengDiHeTongComment}
+            </if>
+
+            <!-- 外地合同，自己增加、减少 -->
+            <if test="waiDiHeTong != 0">
+                produce_waidihetong = produce_waidihetong + #{waiDiHeTong},
+                produce_waidihetong_comment = #{waiDiHeTongComment}
+            </if>
+
+            <!-- 等待，自己增加、减少 -->
+            <if test="deng != 0">
+                produce_deng = produce_deng + #{deng},
+                produce_deng_comment = #{dengComment}
+            </if>
+        </set>
+        WHERE years_years_id = #{year}
+        AND month_month_id = #{month}
+        AND day_day_id = #{day}
+        AND produce_product_id = #{productId}
+        AND produce_product_name = #{productName};
+    </update>
+
+    <!-- 错误修正 -->
+    <update id="changeProduce" parameterType="Produce">
+        UPDATE produce
+        <set>
+            <!-- 下单 -->
+            <if test="xiaDan != 0">
+                produce_xiadan = #{xiaDan},
+                produce_xiadan_comment = #{xiaDanComment}
+            </if>
+
+            <!-- 木工 -->
+            <if test="muGong != 0">
+                produce_mugong = #{muGong},
+                produce_mugong_comment = #{muGongComment}
+            </if>
+
+            <!-- 油房 -->
+            <if test="youFang != 0">
+                produce_youfang = #{youFang},
+                produce_youfang_comment = #{youFangComment}
+            </if>
+
+            <!-- 包装 -->
+            <if test="baoZhuang != 0">
+                produce_baozhuang = #{baoZhuang},
+                produce_baozhuang_comment = #{baoZhaungComment}
+            </if>
+
+            <!-- 特定 -->
+            <if test="teDing != 0">
+                produce_teding = #{teDing},
+                produce_teding_comment = #{teDingComment}
+            </if>
+
+            <!-- 北京 -->
+            <if test="beiJing != 0">
+                produce_beijing = #{beiJing},
+                produce_beijing_comment = #{beiJingComment}
+            </if>
+
+            <!-- 北京特定 -->
+            <if test="beiJingTeDing != 0">
+                produce_beijingteding = #{beiJingTeDing},
+                produce_beijingteding_comment = #{beiJingTeDingcomment}
+            </if>
+
+            <!-- 本地合同 -->
+            <if test="bendDiHeTong != 0">
+                produce_bendihetong = #{benDinHeTong},
+                produce_bendihetong_comment = #{bengDiHeTongComment}
+            </if>
+
+            <!-- 外地合同 -->
+            <if test="waiDiHeTong != 0">
+                produce_waidihetong = #{waiDiHeTong},
+                produce_waidihetong_comment = #{waiDiHeTongComment}
+            </if>
+
+            <!-- 等待 -->
+            <if test="deng != 0">
+                produce_deng = #{deng},
+                produce_deng_comment = #{dengComment}
+            </if>
+        </set>
+        WHERE years_years_id = #{year}
+        AND month_month_id = #{month}
+        AND day_day_id = #{day}
+        AND produce_product_id = #{productId}
+        AND produce_product_name = #{productName};
+    </update>
+
 </mapper>
