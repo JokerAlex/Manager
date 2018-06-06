@@ -2,7 +2,7 @@ package com.manager.pojo;
 
 public class Produce {
 
-    private int yaer;
+    private int year;
     private int month;
     private int day;
 
@@ -42,8 +42,8 @@ public class Produce {
     public Produce() {
     }
 
-    public Produce(int yaer, int month, int day, int productId, String productName, int xiaDan, String xiaDanComment, int muGong, String muGongComment, int youFang, String youFangComment, int baoZhuang, String baoZhuangComment, int teDing, String teDingComment, int beiJing, String beiJingComment, int beiJingTeDing, String beiJingTeDingComment, int bendDiHeTong, String bengDiHeTongComment, int waiDiHeTong, String waiDiHeTongComment, int deng, String dengComment) {
-        this.yaer = yaer;
+    public Produce(int year, int month, int day, int productId, String productName, int xiaDan, String xiaDanComment, int muGong, String muGongComment, int youFang, String youFangComment, int baoZhuang, String baoZhuangComment, int teDing, String teDingComment, int beiJing, String beiJingComment, int beiJingTeDing, String beiJingTeDingComment, int bendDiHeTong, String bengDiHeTongComment, int waiDiHeTong, String waiDiHeTongComment, int deng, String dengComment) {
+        this.year = year;
         this.month = month;
         this.day = day;
         this.productId = productId;
@@ -70,12 +70,12 @@ public class Produce {
         this.dengComment = dengComment;
     }
 
-    public int getYaer() {
-        return yaer;
+    public int getYear() {
+        return year;
     }
 
-    public void setYaer(int yaer) {
-        this.yaer = yaer;
+    public void setYear(int year) {
+        this.year = year;
     }
 
     public int getMonth() {
@@ -273,7 +273,7 @@ public class Produce {
     @Override
     public String toString() {
         return "Produce{" +
-                "yaer=" + yaer +
+                "year=" + year +
                 ", month=" + month +
                 ", day=" + day +
                 ", productId=" + productId +
