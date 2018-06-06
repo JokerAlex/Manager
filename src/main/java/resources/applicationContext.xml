@@ -9,7 +9,7 @@
     <context:component-scan base-package="com.manager.dao,com.manager.service,com.manager.controller,com.manager.views"/>
     <!-- 引入外置文件 -->
     <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="location" value="classpath:jdbc.properties"/>
+        <property name="location" value="classpath:resources/jdbc.properties"/>
     </bean>
 
     <!--数据库连接池配置-->
@@ -24,9 +24,9 @@
         <!--指定数据源-->
         <property name="dataSource" ref="dataSource"/>
         <!--具体指定xml文件，可不配-->
-        <property name="configLocation" value="classpath:mybatis-config.xml"/>
+        <property name="configLocation" value="classpath:resources/mybatis-config.xml"/>
         <!--自动扫描mapping.xml文件，**表示迭代查找 ,,也可在mybatis-config.xml中单独指定xml文件-->
-        <property name="mapperLocations" value="classpath:mapper/*.xml"/>
+        <property name="mapperLocations" value="classpath:resources/mapper/*.xml"/>
     </bean>
 
     <!--自动扫描com/manager/dao下的所有dao接口，并实现这些接口，可直接在程序中使用dao接口，不用再获取sqlsession对象-->
