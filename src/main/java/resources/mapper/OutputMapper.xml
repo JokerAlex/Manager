@@ -40,23 +40,49 @@
         WHERE years_years_id = #{year} AND month_month_id = #{month};
     </select>
 
+    <!-- 添加产品 -->
+    <insert id="insertOne" parameterType="Output">
+        INSERT INTO output (years_years_id, month_month_id, output_product_id, output_product_name)
+        VALUES (#{year}, #{month}, #{productId}, #{productName});
+    </insert>
+
     <!-- 错误信息修正 -->
     <update id="changeOutput" parameterType="Output">
         UPDATE output
         <set>
-            <if test="xiaDan != null">output_xiadan = #{xiaDan},</if>
-            <if test="muGong != null">output_mugong = #{muGong},</if>
-            <if test="youFang != null">output_youfang = #{youFang},</if>
-            <if test="baoZhuang != null">output_baozhuang = #{baoZhuang},</if>
-            <if test="teDing != null">output_teding = #{teDing},</if>
-            <if test="beiJing != null">output_bejing = #{beiJIng},</if>
-            <if test="beiJingTeDing != null">output_beijingteding = #{beiJingTeding},</if>
-            <if test="bengDiHeTong != null">output_benddigetong = #{bendDiHeTong},</if>
-            <if test="waiDiHeTong != null">output_waidihetong = #{waiDiHeTong},</if>
-            <if test="deng != null">output_deng = #{deng}</if>
+            <if test="xiaDan != 0">output_xiadan = #{xiaDan},</if>
+            <if test="muGong != 0">output_mugong = #{muGong},</if>
+            <if test="youFang != 0">output_youfang = #{youFang},</if>
+            <if test="baoZhuang != 0">output_baozhuang = #{baoZhuang},</if>
+            <if test="teDing != 0">output_teding = #{teDing},</if>
+            <if test="beiJing != 0">output_bejing = #{beiJIng},</if>
+            <if test="beiJingTeDing != 0">output_beijingteding = #{beiJingTeding},</if>
+            <if test="bengDiHeTong != 0">output_benddigetong = #{bendDiHeTong},</if>
+            <if test="waiDiHeTong != 0">output_waidihetong = #{waiDiHeTong},</if>
+            <if test="deng != 0">output_deng = #{deng}</if>
         </set>
         WHERE years_years_id = #{year} AND month_month_id = #{month} AND output_product_id = {productId} AND
         output_product_name = {productName};
     </update>
+
+    <!-- 产值更新 -->
+    <update id="updateOutput" parameterType="Output">
+        UPDATE output
+        <set>
+            <if test="xiaDan != 0">output_xiadan = output_xiadan + #{xiaDan},</if>
+            <if test="muGong != 0">output_mugong = output_mugong + #{muGong},</if>
+            <if test="youFang != 0">output_youfang = output_youfang + #{youFang},</if>
+            <if test="baoZhuang != 0">output_baozhuang = output_baozhuang + #{baoZhuang},</if>
+            <if test="teDing != 0">output_teding = output_teding + #{teDing},</if>
+            <if test="beiJing != 0">output_bejing = output_bejing + #{beiJIng},</if>
+            <if test="beiJingTeDing != 0">output_beijingteding = output_beijingteding + #{beiJingTeding},</if>
+            <if test="bengDiHeTong != 0">output_benddigetong = output_benddigetong + #{bendDiHeTong},</if>
+            <if test="waiDiHeTong != 0">output_waidihetong = output_waidihetong + #{waiDiHeTong},</if>
+            <if test="deng != 0">output_deng = output_deng + #{deng}</if>
+        </set>
+        WHERE years_years_id = #{year} AND month_month_id = #{month} AND output_product_id = {productId} AND
+        output_product_name = {productName};
+    </update>
+
 
 </mapper>
