@@ -1,6 +1,8 @@
 package com.manager.main;
 
 import com.manager.controller.LoginController;
+import com.manager.controller.Maincontroller;
+import com.manager.views.MainView;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -15,7 +17,9 @@ public class App
         //获取上下文对象
         ApplicationContext context =new ClassPathXmlApplicationContext("applicationContext.xml");
 
-        LoginController loginController = context.getBean(LoginController.class);
-        loginController.initController();
+        //LoginController loginController = context.getBean(LoginController.class);
+        //loginController.initController();
+        Maincontroller maincontroller = context.getBean(Maincontroller.class);
+        maincontroller.initview();
     }
 }
