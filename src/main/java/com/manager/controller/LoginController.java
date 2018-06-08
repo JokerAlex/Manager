@@ -46,7 +46,7 @@ public class LoginController {
                 MainController mainController = context.getBean(MainController.class);
                 //初始化页面和事件监听
                 mainController.initview();
-                mainController.inintController();
+                mainController.initController();
             } else {
                 JOptionPane.showMessageDialog(null, "用户名或密码错误", "提示", JOptionPane.ERROR_MESSAGE);
             }
