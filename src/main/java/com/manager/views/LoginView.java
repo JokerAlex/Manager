@@ -1,6 +1,5 @@
 package com.manager.views;
 
-
 import org.springframework.stereotype.Component;
 
 import javax.swing.*;
@@ -8,92 +7,74 @@ import java.awt.*;
 
 @Component
 public class LoginView extends JFrame {
-
-    JLabel labelUserName;
-    JLabel labelPassword;
-    JTextField textFieldUserName;
-    JPasswordField passwordField;
-    JButton buttonLogin;
+    private JLabel userNameLabel;
+    private JLabel passLabel;
 
 
-    public LoginView() throws HeadlessException {
+    private JTextField userNameText;
+    private JPasswordField passwordField;
+
+    private JButton confirmButton;
+
+
+    public LoginView(){
+        init();
     }
 
-    public void init() {
+    private void init(){
 
-        labelUserName = new JLabel("用户名：");
-        labelPassword = new JLabel("密  码：");
-        textFieldUserName = new JTextField();
+        Dimension dimensionLabel = new Dimension(60,30);
+        Dimension dimensionText = new Dimension(150,30);
+
+        userNameLabel = new JLabel("用户名：");
+        userNameLabel.setPreferredSize(dimensionLabel);
+        userNameText = new JTextField();
+        userNameText.setPreferredSize(dimensionText);
+
+        passLabel = new JLabel("密  码：");
+        passLabel.setPreferredSize(dimensionLabel);
         passwordField = new JPasswordField();
-        buttonLogin = new JButton("登录");
-
-        Dimension dimension = new Dimension(100,20);
-        textFieldUserName.setPreferredSize(dimension);
-        passwordField.setPreferredSize(dimension);
+        passwordField.setPreferredSize(dimensionText);
 
 
-        JPanel panelName = new JPanel();
-        panelName.add(labelUserName);
-        panelName.add(textFieldUserName);
+        confirmButton = new JButton("登录");
 
-        JPanel panelPass = new JPanel();
-        panelPass.add(labelPassword);
-        panelPass.add(passwordField);
+        JPanel userNameP = new JPanel();
+        userNameP.add(userNameLabel);
+        userNameP.add(userNameText);
 
-        JPanel panelButton = new JPanel();
-        panelButton.add(buttonLogin);
+        JPanel passP = new JPanel();
+        passP.add(passLabel);
+        passP.add(passwordField);
 
 
-        //设置显示
-        this.setLayout(new GridLayout(3,1));
-        this.add(panelName);
-        this.add(panelPass);
-        this.add(panelButton);
+        JPanel userButotnP = new JPanel();
+        userButotnP.add(confirmButton);
+
+        this.setLayout(new FlowLayout());
+        this.add(userNameP);
+        this.add(passP);
+        this.add(userButotnP);
         this.setTitle("欢迎登录");
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setVisible(true);
-        this.setSize(300,200);
+        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
+        this.setSize(300,200);
+        this.setVisible(true);
     }
 
-    public JLabel getLabelUserName() {
-        return labelUserName;
-    }
-
-    public void setLabelUserName(JLabel labelUserName) {
-        this.labelUserName = labelUserName;
-    }
-
-    public JLabel getLabelPassword() {
-        return labelPassword;
-    }
-
-    public void setLabelPassword(JLabel labelPassword) {
-        this.labelPassword = labelPassword;
-    }
-
-    public JTextField getTextFieldUserName() {
-        return textFieldUserName;
-    }
-
-    public void setTextFieldUserName(JTextField textFieldUserName) {
-        this.textFieldUserName = textFieldUserName;
+    public JTextField getUserNameText() {
+        return userNameText;
     }
 
     public JPasswordField getPasswordField() {
         return passwordField;
     }
 
-    public void setPasswordField(JPasswordField passwordField) {
-        this.passwordField = passwordField;
+    public JButton getConfirmButton() {
+        return confirmButton;
     }
 
-    public JButton getButtonLogin() {
-        return buttonLogin;
+    public static void main(String[] args) {
+        new ProductChangeView();
     }
-
-    public void setButtonLogin(JButton buttonLogin) {
-        this.buttonLogin = buttonLogin;
-    }
-
 }

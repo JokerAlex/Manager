@@ -21,19 +21,14 @@ public class LoginController {
     public LoginController(LoginView loginView, LoginService loginService) {
         this.loginView = loginView;
         this.loginService = loginService;
-        initView();
-    }
-
-    private void initView() {
-        loginView.init();
     }
 
     public void initController() {
-        loginView.getButtonLogin().addActionListener(e -> doLogin());
+        loginView.getConfirmButton().addActionListener(e -> doLogin());
     }
 
     private void doLogin() {
-        String userName = loginView.getTextFieldUserName().getText();
+        String userName = loginView.getUserNameText().getText();
         String password = new String(loginView.getPasswordField().getPassword());
         if (userName == null || userName.equals("")) {
             JOptionPane.showMessageDialog(null, "用户名不能为空", "提示", JOptionPane.INFORMATION_MESSAGE);
