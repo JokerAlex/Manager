@@ -4,12 +4,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.swing.*;
-import java.awt.*;
 
 @Component
 public class MainView extends JFrame {
+
+    //界面以及弹窗
     private ProductPanel product;
+    private ProductChangeView productChangeView;
+    private ProductAddView productAddView;
+
+
     private ProducePanel produce;
+
+
     private OutputPanel output;
 
 
@@ -19,10 +26,16 @@ public class MainView extends JFrame {
         this.produce = produce;
         this.output = output;
     }
+    @Autowired
+    public void setProductChangeView(ProductChangeView productChangeView) {
+        this.productChangeView = productChangeView;
+    }
+    @Autowired
+    public void setProductAddView(ProductAddView productAddView) {
+        this.productAddView = productAddView;
+    }
 
     public void init(){
-
-        product.init();
 
         JTabbedPane jTabbedPane = new JTabbedPane();
         jTabbedPane.add("产品",product);
@@ -41,6 +54,14 @@ public class MainView extends JFrame {
         return product;
     }
 
+    public ProductChangeView getProductChangeView() {
+        return productChangeView;
+    }
+
+    public ProductAddView getProductAddView() {
+        return productAddView;
+    }
+
     public ProducePanel getProduce() {
         return produce;
     }
@@ -49,8 +70,4 @@ public class MainView extends JFrame {
         return output;
     }
 
-    public static void main(String[] args) {
-        MainView mainView = new MainView();
-        mainView.init();
-    }
 }
