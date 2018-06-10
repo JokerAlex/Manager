@@ -70,8 +70,8 @@ public class ProductAddView extends JFrame {
         this.add(productCommentP);
         this.add(productButotnP);
         this.setTitle("产品添加");
-        this.setLocationRelativeTo(null);
         this.setSize(350,300);
+        this.setLocationRelativeTo(null);
         this.setVisible(false);
     }
 

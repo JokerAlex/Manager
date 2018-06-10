@@ -57,8 +57,8 @@ public class LoginView extends JFrame {
         this.add(userButotnP);
         this.setTitle("欢迎登录");
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        this.setLocationRelativeTo(null);
         this.setSize(300,200);
+        this.setLocationRelativeTo(null);
         this.setVisible(true);
     }
 
