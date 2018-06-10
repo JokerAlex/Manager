@@ -28,6 +28,16 @@ public class OutputService {
         return outputMapper.getAll(year,month);
     }
 
+    public boolean getOne(Output output){
+        if (output == null){
+            return false;
+        }
+        if (outputMapper.getOne(output) != null){
+            return true;
+        }
+        return false;
+    }
+
     /**
      * 添加产值产品
      * @param output

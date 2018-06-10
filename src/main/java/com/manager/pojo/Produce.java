@@ -42,6 +42,14 @@ public class Produce {
     public Produce() {
     }
 
+    public Produce(int year, int month, int day, int productId, String productName) {
+        this.year = year;
+        this.month = month;
+        this.day = day;
+        this.productId = productId;
+        this.productName = productName;
+    }
+
     public Produce(int year, int month, int day, int productId, String productName, int xiaDan, String xiaDanComment, int muGong, String muGongComment, int youFang, String youFangComment, int baoZhuang, String baoZhuangComment, int teDing, String teDingComment, int beiJing, String beiJingComment, int beiJingTeDing, String beiJingTeDingComment, int bendDiHeTong, String bengDiHeTongComment, int waiDiHeTong, String waiDiHeTongComment, int deng, String dengComment) {
         this.year = year;
         this.month = month;

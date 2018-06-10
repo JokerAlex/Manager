@@ -7,7 +7,7 @@
         <result property="year" column="years_years_id"/>
         <result property="month" column="month_month_id"/>
         <result property="day" column="day_day_id"/>
-        <result property="productId" column="produce_prodcut_id"/>
+        <result property="productId" column="produce_product_id"/>
         <result property="productName" column="produce_product_name"/>
         <result property="xiaDan" column="produce_xiadan" />
         <result property="xiaDanComment" column="produce_xiadan_comment"/>

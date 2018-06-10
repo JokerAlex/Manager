@@ -9,6 +9,8 @@ public interface OutputMapper {
 
     List<Output> getAll(@Param("year") int year, @Param("month") int month);
 
+    Output getOne(Output output);
+
     int insertOne(Output output);
 
     int changeOutput(Output output);

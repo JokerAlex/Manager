@@ -17,20 +17,10 @@ public class Output {
 
     private int teDing;
 
-    private int beiJing;
-
-    private int beiJingTeDing;
-
-    private int bendDiHeTong;
-
-    private int waiDiHeTong;
-
-    private int deng;
-
     public Output() {
     }
 
-    public Output(int yaer, int month, int productId, String productName, int xiaDan, int muGong, int youFang, int baoZhuang, int teDing, int beiJing, int beiJingTeDing, int bendDiHeTong, int waiDiHeTong, int deng) {
+    public Output(int yaer, int month, int productId, String productName, int xiaDan, int muGong, int youFang, int baoZhuang, int teDing) {
         this.year = yaer;
         this.month = month;
         this.productId = productId;
@@ -40,11 +30,6 @@ public class Output {
         this.youFang = youFang;
         this.baoZhuang = baoZhuang;
         this.teDing = teDing;
-        this.beiJing = beiJing;
-        this.beiJingTeDing = beiJingTeDing;
-        this.bendDiHeTong = bendDiHeTong;
-        this.waiDiHeTong = waiDiHeTong;
-        this.deng = deng;
     }
 
     public int getYear() {
@@ -119,46 +104,6 @@ public class Output {
         this.teDing = teDing;
     }
 
-    public int getBeiJing() {
-        return beiJing;
-    }
-
-    public void setBeiJing(int beiJing) {
-        this.beiJing = beiJing;
-    }
-
-    public int getBeiJingTeDing() {
-        return beiJingTeDing;
-    }
-
-    public void setBeiJingTeDing(int beiJingTeDing) {
-        this.beiJingTeDing = beiJingTeDing;
-    }
-
-    public int getBendDiHeTong() {
-        return bendDiHeTong;
-    }
-
-    public void setBendDiHeTong(int bendDiHeTong) {
-        this.bendDiHeTong = bendDiHeTong;
-    }
-
-    public int getWaiDiHeTong() {
-        return waiDiHeTong;
-    }
-
-    public void setWaiDiHeTong(int waiDiHeTong) {
-        this.waiDiHeTong = waiDiHeTong;
-    }
-
-    public int getDeng() {
-        return deng;
-    }
-
-    public void setDeng(int deng) {
-        this.deng = deng;
-    }
-
     @Override
     public String toString() {
         return "Output{" +
@@ -171,11 +116,6 @@ public class Output {
                 ", youFang=" + youFang +
                 ", baoZhuang=" + baoZhuang +
                 ", teDing=" + teDing +
-                ", beiJing=" + beiJing +
-                ", beiJingTeDing=" + beiJingTeDing +
-                ", bendDiHeTong=" + bendDiHeTong +
-                ", waiDiHeTong=" + waiDiHeTong +
-                ", deng=" + deng +
                 '}';
     }
 }
