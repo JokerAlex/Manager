@@ -15,6 +15,8 @@ public class MainView extends JFrame {
 
 
     private ProducePanel produce;
+    private ProduceAddView produceAddView;
+    private ProduceUpdateView produceUpdateView;
 
 
     private OutputPanel output;
@@ -34,6 +36,15 @@ public class MainView extends JFrame {
     public void setProductAddView(ProductAddView productAddView) {
         this.productAddView = productAddView;
     }
+    @Autowired
+    public void setProduceAddView(ProduceAddView produceAddView) {
+        this.produceAddView = produceAddView;
+    }
+    @Autowired
+    public void setProduceUpdateView(ProduceUpdateView produceUpdateView) {
+        this.produceUpdateView = produceUpdateView;
+    }
+
 
     public void init(){
 
@@ -64,6 +75,14 @@ public class MainView extends JFrame {
 
     public ProducePanel getProduce() {
         return produce;
+    }
+
+    public ProduceAddView getProduceAddView() {
+        return produceAddView;
+    }
+
+    public ProduceUpdateView getProduceUpdateView() {
+        return produceUpdateView;
     }
 
     public OutputPanel getOutput() {
