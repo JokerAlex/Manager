@@ -12,7 +12,7 @@ public class ProductPanel extends JPanel {
     private JButton importButton;//导入按钮
     private JButton addProductButton;//添加商品
     private JButton changeButton;//产品信息修改
-    private JTable jTable;//表格
+    private JTable productTable;//表格
     private DefaultTableModel productTableModel;
 
     public ProductPanel(){
@@ -25,13 +25,13 @@ public class ProductPanel extends JPanel {
             }
         };
 
-        jTable = new JTable(productTableModel);
-        jTable.setShowHorizontalLines(true);
-        jTable.setShowVerticalLines(true);
-        jTable.setFillsViewportHeight(true);
+        productTable = new JTable(productTableModel);
+        productTable.setShowHorizontalLines(true);
+        productTable.setShowVerticalLines(true);
+        productTable.setFillsViewportHeight(true);
 
         //添加表格用
-        JScrollPane scrollPane = new JScrollPane(jTable);
+        JScrollPane scrollPane = new JScrollPane(productTable);
 
         importButton = new JButton("导入");
 
@@ -63,8 +63,8 @@ public class ProductPanel extends JPanel {
         return changeButton;
     }
 
-    public JTable getjTable() {
-        return jTable;
+    public JTable getProductTable() {
+        return productTable;
     }
 
     public DefaultTableModel getProductTableModel() {
