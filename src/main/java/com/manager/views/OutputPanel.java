@@ -11,24 +11,18 @@ import java.awt.*;
 public class OutputPanel extends JPanel {
     private JButton exportButton;//导出按钮
     private JButton changeButton;//产值信息修改
-    private JButton refreshButton;//刷新
-    private JTable jTable;//表格
+    private JTable outputTable;//表格
     private DefaultTableModel outputTableModel;
 
     private JComboBox yearComboBox;
     private JComboBox monthComboBox;
-    private JComboBox dayComboBox;
 
 
     public OutputPanel(){
 
         //日期下拉框
-
-
         yearComboBox = new JComboBox();
         monthComboBox = new JComboBox();
-        dayComboBox = new JComboBox();
-
 
         //表格
         outputTableModel = new DefaultTableModel(){
@@ -39,15 +33,14 @@ public class OutputPanel extends JPanel {
             }
         };
 
-        jTable = new JTable(outputTableModel);
-        jTable.setShowHorizontalLines(true);
-        jTable.setShowVerticalLines(true);
-        jTable.setFillsViewportHeight(true);
+        outputTable = new JTable(outputTableModel);
+        outputTable.setShowHorizontalLines(true);
+        outputTable.setShowVerticalLines(true);
+        outputTable.setFillsViewportHeight(true);
 
         //添加表格用
-        JScrollPane scrollPane = new JScrollPane(jTable);
+        JScrollPane scrollPane = new JScrollPane(outputTable);
 
-        refreshButton = new JButton("刷新");
 
         exportButton = new JButton("导出");
 
@@ -56,8 +49,6 @@ public class OutputPanel extends JPanel {
         JPanel datePanel = new JPanel();
         datePanel.add(yearComboBox);
         datePanel.add(monthComboBox);
-        datePanel.add(dayComboBox);
-        datePanel.add(refreshButton);
 
         JPanel buttonsPanel = new JPanel();
         buttonsPanel.add(changeButton);
@@ -78,8 +69,8 @@ public class OutputPanel extends JPanel {
         return changeButton;
     }
 
-    public JTable getjTable() {
-        return jTable;
+    public JTable getOutputTable() {
+        return outputTable;
     }
 
     public DefaultTableModel getOutputTableModel() {
@@ -94,8 +85,5 @@ public class OutputPanel extends JPanel {
         return monthComboBox;
     }
 
-    public JComboBox getDayComboBox() {
-        return dayComboBox;
-    }
 
 }
