@@ -12,6 +12,7 @@ public class ProductPanel extends JPanel {
     private JButton importButton;//导入按钮
     private JButton addProductButton;//添加商品
     private JButton changeButton;//产品信息修改
+    private JButton delButton;//删除
     private JTable productTable;//表格
     private DefaultTableModel productTableModel;
 
@@ -39,11 +40,14 @@ public class ProductPanel extends JPanel {
 
         changeButton = new JButton("修改");
 
+        delButton = new JButton("删除");
+
 
         JPanel buttonsPanel = new JPanel();
         buttonsPanel.add(addProductButton);
-        buttonsPanel.add(changeButton);
         buttonsPanel.add(importButton);
+        buttonsPanel.add(changeButton);
+        buttonsPanel.add(delButton);
 
 
         this.setLayout(new BorderLayout());
@@ -61,6 +65,10 @@ public class ProductPanel extends JPanel {
 
     public JButton getChangeButton() {
         return changeButton;
+    }
+
+    public JButton getDelButton() {
+        return delButton;
     }
 
     public JTable getProductTable() {

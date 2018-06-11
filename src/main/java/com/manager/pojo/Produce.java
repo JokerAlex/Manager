@@ -30,8 +30,8 @@ public class Produce {
     private int beiJingTeDing;
     private String beiJingTeDingComment;
 
-    private int bendDiHeTong;
-    private String bengDiHeTongComment;
+    private int benDiHeTong;
+    private String benDiHeTongComment;
 
     private int waiDiHeTong;
     private String waiDiHeTongComment;
@@ -50,7 +50,7 @@ public class Produce {
         this.productName = productName;
     }
 
-    public Produce(int year, int month, int day, int productId, String productName, int xiaDan, String xiaDanComment, int muGong, String muGongComment, int youFang, String youFangComment, int baoZhuang, String baoZhuangComment, int teDing, String teDingComment, int beiJing, String beiJingComment, int beiJingTeDing, String beiJingTeDingComment, int bendDiHeTong, String bengDiHeTongComment, int waiDiHeTong, String waiDiHeTongComment, int deng, String dengComment) {
+    public Produce(int year, int month, int day, int productId, String productName, int xiaDan, String xiaDanComment, int muGong, String muGongComment, int youFang, String youFangComment, int baoZhuang, String baoZhuangComment, int teDing, String teDingComment, int beiJing, String beiJingComment, int beiJingTeDing, String beiJingTeDingComment, int benDiHeTong, String benDiHeTongComment, int waiDiHeTong, String waiDiHeTongComment, int deng, String dengComment) {
         this.year = year;
         this.month = month;
         this.day = day;
@@ -70,8 +70,8 @@ public class Produce {
         this.beiJingComment = beiJingComment;
         this.beiJingTeDing = beiJingTeDing;
         this.beiJingTeDingComment = beiJingTeDingComment;
-        this.bendDiHeTong = bendDiHeTong;
-        this.bengDiHeTongComment = bengDiHeTongComment;
+        this.benDiHeTong = benDiHeTong;
+        this.benDiHeTongComment = benDiHeTongComment;
         this.waiDiHeTong = waiDiHeTong;
         this.waiDiHeTongComment = waiDiHeTongComment;
         this.deng = deng;
@@ -230,20 +230,20 @@ public class Produce {
         this.beiJingTeDingComment = beiJingTeDingComment;
     }
 
-    public int getBendDiHeTong() {
-        return bendDiHeTong;
+    public int getBenDiHeTong() {
+        return benDiHeTong;
     }
 
-    public void setBendDiHeTong(int bendDiHeTong) {
-        this.bendDiHeTong = bendDiHeTong;
+    public void setBenDiHeTong(int benDiHeTong) {
+        this.benDiHeTong = benDiHeTong;
     }
 
-    public String getBengDiHeTongComment() {
-        return bengDiHeTongComment;
+    public String getBenDiHeTongComment() {
+        return benDiHeTongComment;
     }
 
-    public void setBengDiHeTongComment(String bengDiHeTongComment) {
-        this.bengDiHeTongComment = bengDiHeTongComment;
+    public void setBenDiHeTongComment(String benDiHeTongComment) {
+        this.benDiHeTongComment = benDiHeTongComment;
     }
 
     public int getWaiDiHeTong() {
@@ -300,8 +300,8 @@ public class Produce {
                 ", beiJingComment='" + beiJingComment + '\'' +
                 ", beiJingTeDing=" + beiJingTeDing +
                 ", beiJingTeDingComment='" + beiJingTeDingComment + '\'' +
-                ", bendDiHeTong=" + bendDiHeTong +
-                ", bengDiHeTongComment='" + bengDiHeTongComment + '\'' +
+                ", benDiHeTong=" + benDiHeTong +
+                ", benDiHeTongComment='" + benDiHeTongComment + '\'' +
                 ", waiDiHeTong=" + waiDiHeTong +
                 ", waiDiHeTongComment='" + waiDiHeTongComment + '\'' +
                 ", deng=" + deng +

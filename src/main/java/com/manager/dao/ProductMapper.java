@@ -16,4 +16,6 @@ public interface ProductMapper {
     int insertBatch(@Param("list") List<Product> list);
 
     int updateProduct(Product product);
+
+    int delProduct(@Param("productId") int productId);
 }

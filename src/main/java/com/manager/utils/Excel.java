@@ -4,14 +4,13 @@ package com.manager.utils;
 import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.util.StringUtils;
 
-import javax.imageio.IIOException;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
+
+import java.io.*;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -150,5 +149,55 @@ public class Excel {
      */
     public static int getRowNumber(Sheet sheet){
         return sheet.getPhysicalNumberOfRows();
+    }
+
+
+    //导出excel文件
+    public static void exportData(String title, String[] headers,List<List<String>> list, FileOutputStream fileOutputStream) throws IOException {
+        XSSFWorkbook wb = new XSSFWorkbook();
+        Sheet sheet = wb.createSheet();
+        //单元格样式
+        CellStyle cellStyle = wb.createCellStyle();
+        cellStyle.setBorderBottom(CellStyle.BORDER_THIN); //下边框
+        cellStyle.setBorderLeft(CellStyle.BORDER_THIN);//左边框
+        cellStyle.setBorderTop(CellStyle.BORDER_THIN);//上边框
+        cellStyle.setBorderRight(CellStyle.BORDER_THIN);//右边框
+
+        //标题样式
+        CellStyle cellStyleTitle = wb.createCellStyle();
+        cellStyleTitle.setAlignment(CellStyle.ALIGN_CENTER);
+        Font font = wb.createFont();
+        font.setFontName("黑体");
+        font.setBoldweight(Font.BOLDWEIGHT_BOLD);
+        font.setFontHeightInPoints((short) 20);
+        cellStyleTitle.setFont(font);
+        //第一行合并
+        CellRangeAddress region = new CellRangeAddress(0, 0, 0, headers.length-1);
+        sheet.addMergedRegion(region);
+        Row row;
+        Cell cell;
+        //填充第0行数据标题
+        row = sheet.createRow(0);
+        cell = row.createCell(0);
+        cell.setCellValue(title);
+        cell.setCellStyle(cellStyleTitle);
+        row.setHeightInPoints(30);
+        //填充第1行表头
+        row = sheet.createRow(1);
+        for (int i = 0;i<headers.length;i++){
+            cell = row.createCell(i);
+            cell.setCellValue(headers[i]);
+            cell.setCellStyle(cellStyle);
+        }
+        //填充数据,从第2行开始
+        for (int i=0;i<list.size();i++){
+            row = sheet.createRow(i+2);
+            for (int j=0;j<list.get(i).size();j++){
+                cell = row.createCell(j);
+                cell.setCellValue(list.get(i).get(j));
+                cell.setCellStyle(cellStyle);
+            }
+        }
+        wb.write(fileOutputStream);
     }
 }

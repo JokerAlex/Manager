@@ -23,8 +23,8 @@
         <result property="beiJingComment" column="produce_beijing_comment"/>
         <result property="beiJingTeDing" column="produce_beijingteding"/>
         <result property="beiJingTeDingComment" column="produce_beijingteding_comment"/>
-        <result property="bendDiHeTong" column="produce_benddihetong"/>
-        <result property="bengDiHeTongComment" column="produce_dengdihetong_comment"/>
+        <result property="benDiHeTong" column="produce_bendihetong"/>
+        <result property="benDiHeTongComment" column="produce_bendihetong_comment"/>
         <result property="waiDiHeTong" column="produce_waidihetong"/>
         <result property="waiDiHeTongComment" column="produce_waidihetong_comment"/>
         <result property="deng" column="produce_deng"/>
@@ -38,7 +38,7 @@
     </insert>
 
     <!-- 批量导入产品 -->
-    <insert id="insertBatch" parameterType="Produce">
+    <insert id="insertBatch">
         INSERT INTO produce (years_years_id,
         month_month_id,
         day_day_id,
@@ -65,7 +65,7 @@
         produce_deng,
         produce_deng_comment)
         VALUES
-        <foreach item="item" collection="produceList" separator=",">
+        <foreach item="item" collection="list" separator=",">
             (
             #{item.year},#{item.month},#{item.day},
             #{item.productId},#{item.productName},
@@ -77,7 +77,7 @@
             #{item.beiJing},#{item.beiJingComment},
             #{item.beiJingTeDing},#{item.beiJingTeDingComment},
             #{item.benDiHeTong},#{item.benDiHeTongComment},
-            #{item.waiDiHeTong},#{item.wiaDiHeTongComment},
+            #{item.waiDiHeTong},#{item.waiDiHeTongComment},
             #{item.deng},#{item.dengComment}
             )
         </foreach>
@@ -143,7 +143,7 @@
             <if test="baoZhuang != 0">
                 produce_baozhuang = produce_baozhuang + #{baoZhuang},
                 produce_youfang = produce_youfang - #{baoZhuang},
-                produce_baozhuang_comment = #{baoZhaungComment}
+                produce_baozhuang_comment = #{baoZhuangComment}
             </if>
 
             <!-- 特定增加，油房减少 -->
@@ -164,13 +164,13 @@
             <if test="beiJingTeDing != 0">
                 produce_beijingteding = produce_beijingteding + #{beiJingTeDing},
                 produce_teding = produce_teding - #{beiJingTeDing},
-                produce_beijingteding_comment = #{beiJingTeDingcomment}
+                produce_beijingteding_comment = #{beiJingTeDingComment}
             </if>
 
             <!-- 本地合同，自己增加、减少 -->
-            <if test="bendDiHeTong != 0">
-                produce_bendihetong = produce_bendihetong + #{benDinHeTong},
-                produce_bendihetong_comment = #{bengDiHeTongComment}
+            <if test="benDiHeTong != 0">
+                produce_bendihetong = produce_bendihetong + #{benDiHeTong},
+                produce_bendihetong_comment = #{benDiHeTongComment}
             </if>
 
             <!-- 外地合同，自己增加、减少 -->
@@ -217,7 +217,7 @@
             <!-- 包装 -->
             <if test="baoZhuang != 0">
                 produce_baozhuang = #{baoZhuang},
-                produce_baozhuang_comment = #{baoZhaungComment}
+                produce_baozhuang_comment = #{baoZhuangComment}
             </if>
 
             <!-- 特定 -->
@@ -235,13 +235,13 @@
             <!-- 北京特定 -->
             <if test="beiJingTeDing != 0">
                 produce_beijingteding = #{beiJingTeDing},
-                produce_beijingteding_comment = #{beiJingTeDingcomment}
+                produce_beijingteding_comment = #{beiJingTeDingComment}
             </if>
 
             <!-- 本地合同 -->
-            <if test="bendDiHeTong != 0">
-                produce_bendihetong = #{benDinHeTong},
-                produce_bendihetong_comment = #{bengDiHeTongComment}
+            <if test="benDiHeTong != 0">
+                produce_bendihetong = #{benDiHeTong},
+                produce_bendihetong_comment = #{benDiHeTongComment}
             </if>
 
             <!-- 外地合同 -->

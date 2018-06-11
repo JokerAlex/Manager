@@ -52,4 +52,9 @@
         WHERE product_id = #{productId};
     </update>
 
+    <!-- 删除产品 -->
+    <update id="delProduct" parameterType="int">
+        DELETE FROM product WHERE product_id = #{productId};
+    </update>
+
 </mapper>

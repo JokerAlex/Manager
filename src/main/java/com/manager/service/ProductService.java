@@ -72,4 +72,19 @@ public class ProductService {
         }
         return false;
     }
+
+    /**
+     * 删除产品
+     * @param productId
+     * @return
+     */
+    public boolean delProduct(int productId){
+        if (productId == 0){
+            return false;
+        }
+        if (productMapper.delProduct(productId) == 1){
+            return true;
+        }
+        return false;
+    }
 }
