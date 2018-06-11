@@ -20,8 +20,15 @@ public class Output {
     public Output() {
     }
 
-    public Output(int yaer, int month, int productId, String productName, int xiaDan, int muGong, int youFang, int baoZhuang, int teDing) {
-        this.year = yaer;
+    public Output(int year, int month, int productId, String productName) {
+        this.year = year;
+        this.month = month;
+        this.productId = productId;
+        this.productName = productName;
+    }
+
+    public Output(int year, int month, int productId, String productName, int xiaDan, int muGong, int youFang, int baoZhuang, int teDing) {
+        this.year = year;
         this.month = month;
         this.productId = productId;
         this.productName = productName;
@@ -107,7 +114,7 @@ public class Output {
     @Override
     public String toString() {
         return "Output{" +
-                "yaer=" + year +
+                "year=" + year +
                 ", month=" + month +
                 ", productId=" + productId +
                 ", productName='" + productName + '\'' +
