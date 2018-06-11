@@ -79,6 +79,7 @@ public class ProductChangeView extends JFrame {
         this.setTitle("产品信息修改");
         this.setSize(350,350);
         this.setLocationRelativeTo(null);
+        this.setAlwaysOnTop(true);
         this.setVisible(false);
     }
 

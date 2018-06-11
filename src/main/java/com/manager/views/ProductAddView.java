@@ -72,6 +72,7 @@ public class ProductAddView extends JFrame {
         this.setTitle("产品添加");
         this.setSize(350,300);
         this.setLocationRelativeTo(null);
+        this.setAlwaysOnTop(true);
         this.setVisible(false);
     }
 

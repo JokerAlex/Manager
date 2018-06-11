@@ -95,6 +95,7 @@ public class ProduceUpdateView extends JFrame {
         this.setTitle("进度更新");
         this.setSize(300,400);
         this.setLocationRelativeTo(null);
+        this.setAlwaysOnTop(true);
         this.setVisible(false);
 
     }
