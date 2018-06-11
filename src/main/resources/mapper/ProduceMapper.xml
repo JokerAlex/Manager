@@ -9,7 +9,7 @@
         <result property="day" column="day_day_id"/>
         <result property="productId" column="produce_product_id"/>
         <result property="productName" column="produce_product_name"/>
-        <result property="xiaDan" column="produce_xiadan" />
+        <result property="xiaDan" column="produce_xiadan"/>
         <result property="xiaDanComment" column="produce_xiadan_comment"/>
         <result property="muGong" column="produce_mugong"/>
         <result property="muGongComment" column="produce_mugong_comment"/>
@@ -36,7 +36,7 @@
         INSERT INTO produce (years_years_id, month_month_id, day_day_id, produce_product_id, produce_product_name)
         VALUES (#{year}, #{month}, #{day}, #{productId}, #{productName});
     </insert>
-    
+
     <!-- 批量导入产品 -->
     <insert id="insertBatch" parameterType="Produce">
         INSERT INTO produce (years_years_id,
@@ -65,27 +65,28 @@
         produce_deng,
         produce_deng_comment)
         VALUES
-            <foreach item="item" collection="produceList" separator=",">
-                (
-                #{item.year},#{item.month},#{item.day},
-                #{item.productId},#{item.productName},
-                #{item.xiaDan},#{item.xiaDanComment},
-                #{item.muGong},#{item.muGongComment},
-                #{item.youFang},#{item.youFangComment},
-                #{item.baoZhuang},#{item.baoZhuangComment},
-                #{item.teDing},#{item.teDingComment},
-                #{item.beiJing},#{item.beiJingComment},
-                #{item.beiJingTeDing},#{item.beiJingTeDingComment},
-                #{item.benDiHeTong},#{item.benDiHeTongComment},
-                #{item.waiDiHeTong},#{item.wiaDiHeTongComment},
-                #{item.deng},#{item.dengComment}
-                )
-            </foreach>
+        <foreach item="item" collection="produceList" separator=",">
+            (
+            #{item.year},#{item.month},#{item.day},
+            #{item.productId},#{item.productName},
+            #{item.xiaDan},#{item.xiaDanComment},
+            #{item.muGong},#{item.muGongComment},
+            #{item.youFang},#{item.youFangComment},
+            #{item.baoZhuang},#{item.baoZhuangComment},
+            #{item.teDing},#{item.teDingComment},
+            #{item.beiJing},#{item.beiJingComment},
+            #{item.beiJingTeDing},#{item.beiJingTeDingComment},
+            #{item.benDiHeTong},#{item.benDiHeTongComment},
+            #{item.waiDiHeTong},#{item.wiaDiHeTongComment},
+            #{item.deng},#{item.dengComment}
+            )
+        </foreach>
     </insert>
 
     <!-- 获取进度报表 -->
     <select id="getAll" resultMap="produceMapper">
-        SELECT years_years_id,
+        SELECT
+            years_years_id,
             month_month_id,
             day_day_id,
             produce_product_id,
@@ -260,6 +261,15 @@
         AND day_day_id = #{day}
         AND produce_product_id = #{productId}
         AND produce_product_name = #{productName};
+    </update>
+
+    <!-- 产品进度删除 -->
+    <update id="delProduce" parameterType="Produce">
+        DELETE FROM produce
+        WHERE years_years_id = #{year}
+              AND month_month_id = #{month}
+              AND day_day_id = #{day}
+              AND produce_product_id = #{productId};
     </update>
 
 </mapper>

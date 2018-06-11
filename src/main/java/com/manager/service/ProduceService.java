@@ -76,6 +76,21 @@ public class ProduceService {
     }
 
     /**
+     * 删除产品进度信息
+     * @param produce
+     * @return
+     */
+    public boolean delProduce(Produce produce){
+        if (produce == null){
+            return false;
+        }
+        if (produceMapper.delProduce(produce) == 1){
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * 产品进度错误修正
      * @param produce
      * @return

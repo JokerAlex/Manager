@@ -16,4 +16,6 @@ public interface ProduceMapper {
     int updateOne(Produce produce);
 
     int changeProduce(Produce produce);
+
+    int delProduce(Produce produce);
 }
