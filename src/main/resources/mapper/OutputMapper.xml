@@ -31,7 +31,7 @@
     </select>
 
     <!-- 根据年月产品ID查找 -->
-    <select id="getOne" parameterType="Output" resultType="Output">
+    <select id="getOne" parameterType="Output" resultMap="outputMap">
         SELECT
             years_years_id,
             month_month_id,
@@ -62,8 +62,7 @@
             <if test="baoZhuang != 0">output_baozhuang = #{baoZhuang},</if>
             <if test="teDing != 0">output_teding = #{teDing}</if>
         </set>
-        WHERE years_years_id = #{year} AND month_month_id = #{month} AND output_product_id = {productId} AND
-        output_product_name = {productName};
+        WHERE years_years_id = #{year} AND month_month_id = #{month} AND output_product_id = #{productId};
     </update>
 
     <!-- 产值更新 -->
@@ -76,8 +75,9 @@
             <if test="baoZhuang != 0">output_baozhuang = output_baozhuang + #{baoZhuang},</if>
             <if test="teDing != 0">output_teding = output_teding + #{teDing}</if>
         </set>
-        WHERE years_years_id = #{year} AND month_month_id = #{month} AND output_product_id = {productId} AND
-        output_product_name = {productName};
+        WHERE years_years_id = #{year}
+        AND month_month_id = #{month}
+        AND output_product_id = #{productId};
     </update>
 
 
