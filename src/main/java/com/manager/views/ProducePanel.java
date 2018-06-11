@@ -3,7 +3,118 @@ package com.manager.views;
 import org.springframework.stereotype.Component;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 
 @Component
 public class ProducePanel extends JPanel {
+    private JButton addButton;//产品进度添加
+    private JButton updateButotn;//进度更新
+    private JButton delButton;//删除进度
+    private JButton importButton;//导入进度
+    private JButton exportButton;//导出按钮
+    private JButton changeButton;//进度信息修改
+    private JTable produceTable;//表格
+    private DefaultTableModel produceTableModel;
+
+    //时间下拉框
+    private JComboBox yearComboBox;
+    private JComboBox monthComboBox;
+    private JComboBox dayComboBox;
+
+    public ProducePanel(){
+
+
+        //日期下拉框
+        yearComboBox = new JComboBox();
+        monthComboBox = new JComboBox();
+        dayComboBox = new JComboBox();
+
+        produceTableModel = new DefaultTableModel(){
+            public boolean isCellEditable(int row, int column)
+            {
+                //不可以编辑
+                return false;
+            }
+        };
+
+        produceTable = new JTable(produceTableModel);
+        produceTable.setShowHorizontalLines(true);
+        produceTable.setShowVerticalLines(true);
+        produceTable.setFillsViewportHeight(true);
+
+        //添加表格用
+        JScrollPane scrollPane = new JScrollPane(produceTable);
+
+        addButton = new JButton("添加产品");
+        updateButotn = new JButton("进度更新");
+        delButton = new JButton("删除");
+        importButton = new JButton("导入进度");
+        exportButton = new JButton("导出");
+        changeButton = new JButton("错误修改");
+
+
+        JPanel datePanel = new JPanel();
+        datePanel.add(yearComboBox);
+        datePanel.add(monthComboBox);
+        datePanel.add(dayComboBox);
+        datePanel.add(importButton);
+
+        JPanel buttonsPanel = new JPanel();
+        buttonsPanel.add(addButton);
+        buttonsPanel.add(updateButotn);
+        buttonsPanel.add(delButton);
+        buttonsPanel.add(changeButton);
+        buttonsPanel.add(exportButton);
+
+
+        this.setLayout(new BorderLayout());
+        this.add(datePanel,BorderLayout.NORTH);
+        this.add(scrollPane,BorderLayout.CENTER);
+        this.add(buttonsPanel,BorderLayout.SOUTH);
+    }
+
+    public JButton getAddButton() {
+        return addButton;
+    }
+
+    public JButton getUpdateButotn() {
+        return updateButotn;
+    }
+
+    public JButton getDelButton() {
+        return delButton;
+    }
+
+    public JButton getImportButton() {
+        return importButton;
+    }
+
+    public JButton getExportButton() {
+        return exportButton;
+    }
+
+    public JButton getChangeButton() {
+        return changeButton;
+    }
+
+    public JTable getProduceTable() {
+        return produceTable;
+    }
+
+    public DefaultTableModel getProduceTableModel() {
+        return produceTableModel;
+    }
+
+    public JComboBox getYearComboBox() {
+        return yearComboBox;
+    }
+
+    public JComboBox getMonthComboBox() {
+        return monthComboBox;
+    }
+
+    public JComboBox getDayComboBox() {
+        return dayComboBox;
+    }
 }
