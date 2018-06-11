@@ -19,7 +19,7 @@ public class ProduceUpdateView extends JFrame {
     private JLabel commentLabel;
     private JTextArea commentTextArea;
     private JButton confirmButton;
-    private JButton cancelButotn;
+    private JButton cancelButton;
 
     public ProduceUpdateView(){
         init();
@@ -59,7 +59,7 @@ public class ProduceUpdateView extends JFrame {
         commentTextArea.setPreferredSize(new Dimension(150,100));
         commentTextArea.setLineWrap(true);
         confirmButton = new JButton("确定");
-        cancelButotn = new JButton("取消");
+        cancelButton = new JButton("取消");
 
         JPanel productIdPanel = new JPanel();
         productIdPanel.add(productIdLabel);
@@ -83,7 +83,7 @@ public class ProduceUpdateView extends JFrame {
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(confirmButton);
-        buttonPanel.add(cancelButotn);
+        buttonPanel.add(cancelButton);
 
         this.setLayout(new FlowLayout());
         this.add(productIdPanel);
@@ -95,7 +95,6 @@ public class ProduceUpdateView extends JFrame {
         this.setTitle("进度更新");
         this.setSize(300,400);
         this.setLocationRelativeTo(null);
-        this.setAlwaysOnTop(true);
         this.setVisible(false);
 
     }
@@ -120,8 +119,8 @@ public class ProduceUpdateView extends JFrame {
         return confirmButton;
     }
 
-    public JButton getCancelButotn() {
-        return cancelButotn;
+    public JButton getCancelButton() {
+        return cancelButton;
     }
 
     public JLabel getProductIdValueLabel() {

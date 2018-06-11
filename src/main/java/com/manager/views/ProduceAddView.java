@@ -40,7 +40,6 @@ public class ProduceAddView extends JFrame{
         this.setTitle("添加新的产品进度");
         this.setSize(300,150);
         this.setLocationRelativeTo(null);
-        this.setAlwaysOnTop(true);
         this.setVisible(false);
     }
 
