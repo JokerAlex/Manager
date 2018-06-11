@@ -8,13 +8,9 @@ import org.springframework.stereotype.Service;
 public class DateService {
 
     private YearsMapper yearsMapper;
-    private MonthMapper monthMapper;
-    private DayMapper dayMapper;
     @Autowired
-    public DateService(YearsMapper yearsMapper, MonthMapper monthMapper, DayMapper dayMapper) {
+    public DateService(YearsMapper yearsMapper) {
         this.yearsMapper = yearsMapper;
-        this.monthMapper = monthMapper;
-        this.dayMapper = dayMapper;
     }
 
 
