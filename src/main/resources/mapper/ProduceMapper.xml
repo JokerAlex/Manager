@@ -33,8 +33,8 @@
 
     <!-- 增加产品 -->
     <insert id="insertOne" parameterType="Produce">
-        INSERT INTO produce (years_years_id, month_month_id, day_day_id, produce_product_id, produce_product_name)
-        VALUES (#{year}, #{month}, #{day}, #{productId}, #{productName});
+        INSERT INTO produce (years_years_id, month_month_id, day_day_id, produce_product_id, produce_product_name, produce_xiadan)
+        VALUES (#{year}, #{month}, #{day}, #{productId}, #{productName}, #{xiaDan});
     </insert>
 
     <!-- 批量导入产品 -->
