@@ -71,6 +71,7 @@ public class MainView extends JFrame {
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.add(jTabbedPane);
         this.setSize(700,500);
+        this.setTitle("信息管理");
         this.setLocationRelativeTo(null);
         this.setVisible(true);
     }
