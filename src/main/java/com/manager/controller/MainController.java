@@ -525,22 +525,30 @@ public class MainController {
         int year = (int) mainView.getProduce().getYearComboBox().getSelectedItem();
         int month = (int) mainView.getProduce().getMonthComboBox().getSelectedItem();
         int day = (int) mainView.getProduce().getDayComboBox().getSelectedItem();
-
-        Produce produce = new Produce(year, month, day, (int) data.get(0), (String) data.get(1));
-
+        int num = 0;
+        boolean isDataRight = true;
         try {
-            boolean isInsert = produceService.insertOne(produce);
-            if (isInsert) {
-                JOptionPane.showMessageDialog(null, "添加成功", "添加结果", JOptionPane.INFORMATION_MESSAGE);
-                mainView.getProduceAddView().setVisible(false);
-                loadProduce();
-            } else {
-                JOptionPane.showMessageDialog(null, "添加失败", "添加结果", JOptionPane.ERROR_MESSAGE);
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "添加失败,产品不能重复添加", "添加结果", JOptionPane.ERROR_MESSAGE);
+             num = Integer.valueOf(mainView.getProduceAddView().getNumTextField().getText());
+        } catch (NumberFormatException nfe){
+            isDataRight = false;
+            JOptionPane.showMessageDialog(null, "下单数据有错误", "错误", JOptionPane.ERROR_MESSAGE);
         }
-
+        if (isDataRight){
+            Produce produce = new Produce(year, month, day, (int) data.get(0), (String) data.get(1));
+            produce.setXiaDan(num);
+            try {
+                boolean isInsert = produceService.insertOne(produce);
+                if (isInsert) {
+                    JOptionPane.showMessageDialog(null, "添加成功", "添加结果", JOptionPane.INFORMATION_MESSAGE);
+                    mainView.getProduceAddView().setVisible(false);
+                    loadProduce();
+                } else {
+                    JOptionPane.showMessageDialog(null, "添加失败", "添加结果", JOptionPane.ERROR_MESSAGE);
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "添加失败,产品不能重复添加", "添加结果", JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }
 
     //updateProduceView
@@ -758,14 +766,17 @@ public class MainController {
                         JOptionPane.showMessageDialog(null, "更新失败", "更新结果", JOptionPane.ERROR_MESSAGE);
                     }
                 } else {
-                    //其他数据会影响产值表
+                    //其他数据会影响产值表,先检查是否有改产品，若没有则插入
                     boolean isOutputExist = outputService.getOne(output);
                     if (!isOutputExist) {
                         outputService.insertOneOutput(output);
                     }
                     //判断是否插入成功
                     boolean isProduceSuccess = produceService.updateProduce(produce);
-                    boolean isOutputSuccess = outputService.updateOutput(output);
+                    boolean isOutputSuccess = true;
+                    if (!choose.equals("下单")){
+                        isOutputSuccess = outputService.updateOutput(output);
+                    }
                     if (isOutputSuccess && isProduceSuccess) {
                         JOptionPane.showMessageDialog(null, "更新成功", "更新结果", JOptionPane.INFORMATION_MESSAGE);
                         mainView.getProduceUpdateView().setVisible(false);
