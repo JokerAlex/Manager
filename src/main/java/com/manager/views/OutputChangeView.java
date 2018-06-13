@@ -80,7 +80,7 @@ public class OutputChangeView extends JFrame {
         this.add(numPanel);
         this.add(buttonPanel);
         this.setTitle("错误修正");
-        this.setSize(300, 250);
+        this.setSize(300, 300);
         this.setLocationRelativeTo(null);
         this.setVisible(false);
     }
