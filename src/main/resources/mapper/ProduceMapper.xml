@@ -188,14 +188,18 @@
         WHERE years_years_id = #{year}
         AND month_month_id = #{month}
         AND day_day_id = #{day}
-        AND produce_product_id = #{productId}
-        AND produce_product_name = #{productName};
+        AND produce_product_id = #{productId};
     </update>
 
     <!-- 错误修正 -->
     <update id="changeProduce" parameterType="Produce">
         UPDATE produce
         <set>
+            <!-- 产品名称 -->
+            <if test="productName != null">
+                produce_product_name = #{productName},
+            </if>
+
             <!-- 下单 -->
             <if test="xiaDan != 0">
                 produce_xiadan = #{xiaDan},
@@ -259,8 +263,7 @@
         WHERE years_years_id = #{year}
         AND month_month_id = #{month}
         AND day_day_id = #{day}
-        AND produce_product_id = #{productId}
-        AND produce_product_name = #{productName};
+        AND produce_product_id = #{productId};
     </update>
 
     <!-- 产品进度删除 -->
