@@ -27,6 +27,13 @@ public class ProductService {
         return productMapper.getAll();
     }
 
+    public List<Product> searchProduct(String name){
+        if (name != null){
+            return productMapper.getOne(name);
+        }
+        return null;
+    }
+
     /**
      * 新增一件产品
      * @param product
