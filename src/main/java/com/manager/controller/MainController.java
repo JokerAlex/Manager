@@ -37,7 +37,7 @@ public class MainController {
     private String[] productTitles = {"编号", "名称", "价格", "产品备注"};
     private String[] produceTitles = {"编号", "名称", "下单", "备注", "木工", "备注", "油房", "备注", "包装", "备注",
             "特定", "备注", "北京", "备注", "北京特定", "备注", "本地合同", "备注", "外地合同", "备注", "等待", "备注"};
-    private String[] outputTitles = {"编号", "名称", "下单", "木工", "油房", "包装", "特定"};
+    private String[] outputTitles = {"编号", "名称", "下单", "木工", "油房", "包装", "金额", "特定", "金额"};
 
     @Autowired
     public MainController(MainView mainView, ProductService productService, OutputService outputService, ProduceService produceService, DateService dateService) {
@@ -83,7 +83,7 @@ public class MainController {
         mainView.getProduce().getImportButton().addActionListener(e -> importProduceView());
         mainView.getProduce().getExportButton().addActionListener(e -> exportProduce());
         mainView.getProduce().getAddButton().addActionListener(e -> addProduceView());
-        mainView.getProduce().getUpdateButotn().addActionListener(e -> updateProduceView());
+        mainView.getProduce().getUpdateButton().addActionListener(e -> updateProduceView());
         mainView.getProduce().getDelButton().addActionListener(e -> delProduce());
         mainView.getProduce().getChangeButton().addActionListener(e -> changeProduceView());
 
@@ -96,6 +96,7 @@ public class MainController {
 
         //produceAddView
         mainView.getProduceAddView().getConfirmButton().addActionListener(e -> addProduceToDataBase());
+        mainView.getProduceAddView().getSearchButton().addActionListener(e -> addProduceView());
 
         //produceUpdateView
         mainView.getProduceUpdateView().getCancelButton().addActionListener(e -> mainView.getProduceUpdateView().setVisible(false));
@@ -147,7 +148,7 @@ public class MainController {
         table.getTableHeader().getColumnModel().getColumn(index).setMinWidth(0);
     }
 
-    private int getDayOfMonth(int year, int month){
+    private int getDayOfMonth(int year, int month) {
         Calendar calendar = Calendar.getInstance();
         int yearNow = calendar.get(Calendar.YEAR);
         int monthNow = calendar.get(Calendar.MONTH) + 1;
@@ -179,7 +180,7 @@ public class MainController {
                 }
             }
         }
-        if (year == yearNow && month == monthNow){
+        if (year == yearNow && month == monthNow) {
             day = dayNow;
         }
         return day;
@@ -347,16 +348,16 @@ public class MainController {
     }
 
     //delProduct
-    private void delProduct(){
+    private void delProduct() {
         int selectedRow = mainView.getProduct().getProductTable().getSelectedRow();
-        if (selectedRow == -1){
+        if (selectedRow == -1) {
             JOptionPane.showMessageDialog(null, "没有选中数据", "提示", JOptionPane.INFORMATION_MESSAGE);
         } else {
             //yes->0,no->1
             int n = JOptionPane.showConfirmDialog(null, "确定删除？", "删除", JOptionPane.YES_NO_OPTION);
             if (n == 0) {
-                boolean isDel = productService.delProduct((int) mainView.getProduct().getProductTable().getValueAt(selectedRow,0));
-                if (isDel){
+                boolean isDel = productService.delProduct((int) mainView.getProduct().getProductTable().getValueAt(selectedRow, 0));
+                if (isDel) {
                     JOptionPane.showMessageDialog(null, "删除成功", "删除结果", JOptionPane.INFORMATION_MESSAGE);
                     loadProduct();
                 } else {
@@ -413,7 +414,7 @@ public class MainController {
             if (mainView.getProduce().getMonthComboBox().getItemCount() != 0) {
                 int yearSelected = (int) mainView.getProduce().getYearComboBox().getSelectedItem();
                 int monthSelected = (int) mainView.getProduce().getMonthComboBox().getSelectedItem();
-                int dayRefresh = getDayOfMonth(yearSelected,monthSelected);
+                int dayRefresh = getDayOfMonth(yearSelected, monthSelected);
                 mainView.getProduce().getDayComboBox().removeAllItems();
                 for (int i = 1; i <= dayRefresh; i++) {
                     mainView.getProduce().getDayComboBox().addItem(i);
@@ -432,7 +433,7 @@ public class MainController {
                 mainView.getProduce().getExportButton().setEnabled(false);
                 mainView.getProduce().getImportButton().setEnabled(false);
                 mainView.getProduce().getAddButton().setEnabled(false);
-                mainView.getProduce().getUpdateButotn().setEnabled(false);
+                mainView.getProduce().getUpdateButton().setEnabled(false);
                 mainView.getProduce().getDelButton().setEnabled(false);
                 int numOfRows = mainView.getProduce().getProduceTable().getRowCount();
                 for (int i = 0; i < numOfRows; i++) {
@@ -450,7 +451,7 @@ public class MainController {
         int day = (int) mainView.getProduce().getDayComboBox().getSelectedItem();
 
         List<Produce> produceList = produceService.getAllProduce(year, month, day);
-        if (produceList.size() == 0){
+        if (produceList.size() == 0) {
             mainView.getProduce().getImportButton().setEnabled(true);
             mainView.getProduce().getExportButton().setEnabled(false);
         } else {
@@ -459,19 +460,19 @@ public class MainController {
         }
 
         Calendar calendarSelected = Calendar.getInstance();
-        calendarSelected.set(year,month-1,day);
+        calendarSelected.set(year, month - 1, day);
         Date select = calendarSelected.getTime();
         Calendar calendarNow = Calendar.getInstance();
         Date now = calendarNow.getTime();
 
-        if (select.before(now) || select.after(now)){
+        if (select.before(now) || select.after(now)) {
             mainView.getProduce().getImportButton().setEnabled(false);
             mainView.getProduce().getAddButton().setEnabled(false);
-            mainView.getProduce().getUpdateButotn().setEnabled(false);
+            mainView.getProduce().getUpdateButton().setEnabled(false);
             mainView.getProduce().getDelButton().setEnabled(false);
         } else {
             mainView.getProduce().getAddButton().setEnabled(true);
-            mainView.getProduce().getUpdateButotn().setEnabled(true);
+            mainView.getProduce().getUpdateButton().setEnabled(true);
             mainView.getProduce().getDelButton().setEnabled(true);
         }
 
@@ -508,47 +509,65 @@ public class MainController {
 
     //addProduce-view
     private void addProduceView() {
-        List<Product> productList = productService.getAllProduct();
+        String name = mainView.getProduceAddView().getNameTextField().getText().trim();
+        if (name == null) {
+            name = "";
+        }
+        List<Product> productList = productService.searchProduct(name);
+        Vector<Vector<java.io.Serializable>> data = new Vector<>();
         for (Product product : productList) {
-            Vector row = new Vector();
+            Vector<java.io.Serializable> row = new Vector<>();
             row.add(product.getProductId());
             row.add(product.getProductName());
-            mainView.getProduceAddView().getProductComboBox().addItem(row);
+            row.add(product.getProductPrice());
+            data.add(row);
         }
+        String[] titles = {"编号", "名称", "价格"};
+        mainView.getProduceAddView().getProductTableModel().setDataVector(data, initTitle(titles));
+        hideColumn(mainView.getProduceAddView().getProductTable(), 0);
         mainView.getProduceAddView().setVisible(true);
     }
+
 
     //addProduce-toDatabase
     private void addProduceToDataBase() {
         //获取下拉框选中的数据
-        Vector data = (Vector) mainView.getProduceAddView().getProductComboBox().getSelectedItem();
-        int year = (int) mainView.getProduce().getYearComboBox().getSelectedItem();
-        int month = (int) mainView.getProduce().getMonthComboBox().getSelectedItem();
-        int day = (int) mainView.getProduce().getDayComboBox().getSelectedItem();
-        int num = 0;
-        boolean isDataRight = true;
-        try {
-             num = Integer.valueOf(mainView.getProduceAddView().getNumTextField().getText());
-        } catch (NumberFormatException nfe){
-            isDataRight = false;
-            JOptionPane.showMessageDialog(null, "下单数据有错误", "错误", JOptionPane.ERROR_MESSAGE);
-        }
-        if (isDataRight){
-            Produce produce = new Produce(year, month, day, (int) data.get(0), (String) data.get(1));
-            produce.setXiaDan(num);
+        int selectedRow = mainView.getProduceAddView().getProductTable().getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(null, "没有选中数据", "提示", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            int year = (int) mainView.getProduce().getYearComboBox().getSelectedItem();
+            int month = (int) mainView.getProduce().getMonthComboBox().getSelectedItem();
+            int day = (int) mainView.getProduce().getDayComboBox().getSelectedItem();
+            int num = 0;
+            boolean isDataRight = true;
             try {
-                boolean isInsert = produceService.insertOne(produce);
-                if (isInsert) {
-                    JOptionPane.showMessageDialog(null, "添加成功", "添加结果", JOptionPane.INFORMATION_MESSAGE);
-                    mainView.getProduceAddView().setVisible(false);
-                    loadProduce();
-                } else {
-                    JOptionPane.showMessageDialog(null, "添加失败", "添加结果", JOptionPane.ERROR_MESSAGE);
+                num = Integer.valueOf(mainView.getProduceAddView().getNumTextField().getText());
+            } catch (NumberFormatException nfe) {
+                isDataRight = false;
+                JOptionPane.showMessageDialog(null, "下单数据有错误", "错误", JOptionPane.ERROR_MESSAGE);
+            }
+            if (isDataRight) {
+                Produce produce = new Produce(year, month, day,
+                        (int) mainView.getProduceAddView().getProductTable().getValueAt(selectedRow, 0),
+                        (String) mainView.getProduceAddView().getProductTable().getValueAt(selectedRow, 1)
+                );
+                produce.setXiaDan(num);
+                try {
+                    boolean isInsert = produceService.insertOne(produce);
+                    if (isInsert) {
+                        JOptionPane.showMessageDialog(null, "添加成功", "添加结果", JOptionPane.INFORMATION_MESSAGE);
+                        mainView.getProduceAddView().setVisible(false);
+                        loadProduce();
+                    } else {
+                        JOptionPane.showMessageDialog(null, "添加失败", "添加结果", JOptionPane.ERROR_MESSAGE);
+                    }
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, "添加失败,产品不能重复添加", "添加结果", JOptionPane.ERROR_MESSAGE);
                 }
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "添加失败,产品不能重复添加", "添加结果", JOptionPane.ERROR_MESSAGE);
             }
         }
+
     }
 
     //updateProduceView
@@ -652,14 +671,22 @@ public class MainController {
             Output output = new Output(produce.getYear(), produce.getMonth(), produce.getProductId(), produce.getProductName());
             switch (choose) {
                 case "下单": {
-                    produce.setXiaDan(updateNum);
-                    produce.setXiaDanComment(comment);
+                    if (updateNum + (int) mainView.getProduce().getProduceTable().getValueAt(selectedRow, 2) < 0) {
+                        isNumOk = false;
+                        JOptionPane.showMessageDialog(null, "更新后，下单值为负数", "错误", JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        produce.setXiaDan(updateNum);
+                        produce.setXiaDanComment(comment);
+                    }
                     break;
                 }
                 case "木工": {
                     if (updateNum > (int) mainView.getProduce().getProduceTable().getValueAt(selectedRow, 2)) {
                         isNumOk = false;
                         JOptionPane.showMessageDialog(null, "更新后，下单值为负数", "错误", JOptionPane.ERROR_MESSAGE);
+                    } else if (updateNum + (int) mainView.getProduce().getProduceTable().getValueAt(selectedRow, 4) < 0) {
+                        isNumOk = false;
+                        JOptionPane.showMessageDialog(null, "更新后，木工值为负数", "错误", JOptionPane.ERROR_MESSAGE);
                     } else {
                         produce.setMuGong(updateNum);
                         produce.setMuGongComment(comment);
@@ -671,6 +698,9 @@ public class MainController {
                     if (updateNum > (int) mainView.getProduce().getProduceTable().getValueAt(selectedRow, 4)) {
                         isNumOk = false;
                         JOptionPane.showMessageDialog(null, "更新后，木工值为负数", "错误", JOptionPane.ERROR_MESSAGE);
+                    } else if (updateNum + (int) mainView.getProduce().getProduceTable().getValueAt(selectedRow, 6) < 0) {
+                        isNumOk = false;
+                        JOptionPane.showMessageDialog(null, "更新后，油房值为负数", "错误", JOptionPane.ERROR_MESSAGE);
                     } else {
                         produce.setYouFang(updateNum);
                         produce.setYouFangComment(comment);
@@ -682,6 +712,9 @@ public class MainController {
                     if (updateNum > (int) mainView.getProduce().getProduceTable().getValueAt(selectedRow, 6)) {
                         isNumOk = false;
                         JOptionPane.showMessageDialog(null, "更新后，油房值为负数", "错误", JOptionPane.ERROR_MESSAGE);
+                    } else if (updateNum + (int) mainView.getProduce().getProduceTable().getValueAt(selectedRow, 8) < 0) {
+                        isNumOk = false;
+                        JOptionPane.showMessageDialog(null, "更新后，包装值为负数", "错误", JOptionPane.ERROR_MESSAGE);
                     } else {
                         produce.setBaoZhuang(updateNum);
                         produce.setBaoZhuangComment(comment);
@@ -693,6 +726,9 @@ public class MainController {
                     if (updateNum > (int) mainView.getProduce().getProduceTable().getValueAt(selectedRow, 6)) {
                         isNumOk = false;
                         JOptionPane.showMessageDialog(null, "更新后，油房值为负数", "错误", JOptionPane.ERROR_MESSAGE);
+                    } else if (updateNum + (int) mainView.getProduce().getProduceTable().getValueAt(selectedRow, 10) < 0) {
+                        isNumOk = false;
+                        JOptionPane.showMessageDialog(null, "更新后，特定值为负数", "错误", JOptionPane.ERROR_MESSAGE);
                     } else {
                         produce.setTeDing(updateNum);
                         produce.setTeDingComment(comment);
@@ -704,6 +740,9 @@ public class MainController {
                     if (updateNum > (int) mainView.getProduce().getProduceTable().getValueAt(selectedRow, 8)) {
                         isNumOk = false;
                         JOptionPane.showMessageDialog(null, "更新后，包装值为负数", "错误", JOptionPane.ERROR_MESSAGE);
+                    } else if (updateNum + (int) mainView.getProduce().getProduceTable().getValueAt(selectedRow, 12) < 0) {
+                        isNumOk = false;
+                        JOptionPane.showMessageDialog(null, "更新后，北京值为负数", "错误", JOptionPane.ERROR_MESSAGE);
                     } else {
                         produce.setBeiJing(updateNum);
                         produce.setBeiJingComment(comment);
@@ -715,6 +754,9 @@ public class MainController {
                     if (updateNum > (int) mainView.getProduce().getProduceTable().getValueAt(selectedRow, 10)) {
                         isNumOk = false;
                         JOptionPane.showMessageDialog(null, "更新后，特定值为负数", "错误", JOptionPane.ERROR_MESSAGE);
+                    } else if (updateNum + (int) mainView.getProduce().getProduceTable().getValueAt(selectedRow, 14) < 0) {
+                        isNumOk = false;
+                        JOptionPane.showMessageDialog(null, "更新后，北京特定值为负数", "错误", JOptionPane.ERROR_MESSAGE);
                     } else {
                         produce.setBeiJingTeDing(updateNum);
                         produce.setBeiJingTeDingComment(comment);
@@ -767,14 +809,22 @@ public class MainController {
                     }
                 } else {
                     //其他数据会影响产值表,先检查是否有改产品，若没有则插入
-                    boolean isOutputExist = outputService.getOne(output);
-                    if (!isOutputExist) {
+                    Output outputTemp = outputService.getOne(output);
+                    if (outputTemp == null) {
                         outputService.insertOneOutput(output);
                     }
                     //判断是否插入成功
                     boolean isProduceSuccess = produceService.updateProduce(produce);
                     boolean isOutputSuccess = true;
-                    if (!choose.equals("下单")){
+                    if (!choose.equals("下单")) {
+                        if (choose.equals("北京")) {
+                            //产值价格计算
+                            float price = (updateNum + outputTemp.getBaoZhuang()) * productService.getOne(produce.getProductId()).getProductPrice();
+                            output.setBaoZhuangJinE(price);
+                        } else if (choose.equals("北京特定")) {
+                            float price = (updateNum + outputTemp.getTeDing()) * productService.getOne(produce.getProductId()).getProductPrice();
+                            output.setTeDingJinE(price);
+                        }
                         isOutputSuccess = outputService.updateOutput(output);
                     }
                     if (isOutputSuccess && isProduceSuccess) {
@@ -819,8 +869,8 @@ public class MainController {
 
     //错误修正
     private void changeProduceView() {
-        int selsctedRow = mainView.getProduce().getProduceTable().getSelectedRow();
-        if (selsctedRow == -1) {
+        int selectedRow = mainView.getProduce().getProduceTable().getSelectedRow();
+        if (selectedRow == -1) {
             JOptionPane.showMessageDialog(null, "没有选中数据", "提示", JOptionPane.INFORMATION_MESSAGE);
         } else {
             //下拉框初始化
@@ -830,10 +880,10 @@ public class MainController {
                 mainView.getProduceChangeView().getChooseComboBox().addItem(s);
             }
             //页面数据初始化
-            mainView.getProduceChangeView().getProductIdValueLabel().setText(String.valueOf((int) mainView.getProduce().getProduceTable().getValueAt(selsctedRow, 0)));//productId
-            mainView.getProduceChangeView().getProductNameValueLabel().setText((String) mainView.getProduce().getProduceTable().getValueAt(selsctedRow, 1));//productName
-            mainView.getProduceChangeView().getNumTextField().setText(String.valueOf((int) mainView.getProduce().getProduceTable().getValueAt(selsctedRow, 2)));//默认下单
-            mainView.getProduceChangeView().getCommentTextArea().setText((String) mainView.getProduce().getProduceTable().getValueAt(selsctedRow, 3));//默认下单备注
+            mainView.getProduceChangeView().getProductIdValueLabel().setText(String.valueOf((int) mainView.getProduce().getProduceTable().getValueAt(selectedRow, 0)));//productId
+            mainView.getProduceChangeView().getProductNameTextField().setText((String) mainView.getProduce().getProduceTable().getValueAt(selectedRow, 1));//productName
+            mainView.getProduceChangeView().getNumTextField().setText(String.valueOf((int) mainView.getProduce().getProduceTable().getValueAt(selectedRow, 2)));//默认下单
+            mainView.getProduceChangeView().getCommentTextArea().setText((String) mainView.getProduce().getProduceTable().getValueAt(selectedRow, 3));//默认下单备注
             mainView.getProduceChangeView().setVisible(true);
         }
     }
@@ -910,7 +960,7 @@ public class MainController {
         produce.setMonth((int) mainView.getProduce().getMonthComboBox().getSelectedItem());
         produce.setDay((int) mainView.getProduce().getDayComboBox().getSelectedItem());
         produce.setProductId(Integer.valueOf(mainView.getProduceChangeView().getProductIdValueLabel().getText()));
-        produce.setProductName(mainView.getProduceChangeView().getProductNameValueLabel().getText());
+        produce.setProductName(mainView.getProduceChangeView().getProductNameTextField().getText());
         boolean isDataRight = true;
         //获取修改值
         int changeNum = 0;
@@ -920,9 +970,9 @@ public class MainController {
             isDataRight = false;
             JOptionPane.showMessageDialog(null, "数量数据有错误", "错误", JOptionPane.ERROR_MESSAGE);
         }
-        if (changeNum < 0){
+        if (changeNum <= 0) {
             isDataRight = false;
-            JOptionPane.showMessageDialog(null, "数量数据不能为负数", "错误", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "数量数据不能为0或负数", "错误", JOptionPane.ERROR_MESSAGE);
         }
         if (isDataRight) {
             //获取备注信息
@@ -995,7 +1045,7 @@ public class MainController {
     }
 
     //importProduceView
-    private void importProduceView(){
+    private void importProduceView() {
         //加载日期下拉框
         int[] years = dateService.getAllYears();
         Calendar calendar = Calendar.getInstance();
@@ -1015,11 +1065,12 @@ public class MainController {
         //设置初始值
         mainView.getProduceImportView().getYearComboBox().setSelectedItem(year);
         mainView.getProduceImportView().getMonthComboBox().setSelectedItem(month);
-        mainView.getProduceImportView().getDayComboBox().setSelectedItem(day-1);
+        mainView.getProduceImportView().getDayComboBox().setSelectedItem(day - 1);
         mainView.getProduceImportView().setVisible(true);
     }
+
     //importProduceYearComboBoxListener
-    private void importProduceYearComboBoxListener(){
+    private void importProduceYearComboBoxListener() {
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH) + 1;
@@ -1035,16 +1086,17 @@ public class MainController {
             mainView.getProduceImportView().getMonthComboBox().addItem(i);
         }
     }
+
     //importProduceMonthComboBoxListener
-    private void importProduceMonthComboBoxListener(){
-        if (mainView.getProduceImportView().getMonthComboBox().getItemCount() != 0){
+    private void importProduceMonthComboBoxListener() {
+        if (mainView.getProduceImportView().getMonthComboBox().getItemCount() != 0) {
             int yearSelected = (int) mainView.getProduceImportView().getYearComboBox().getSelectedItem();
             int monthSelected = (int) mainView.getProduceImportView().getMonthComboBox().getSelectedItem();
-            int dayRefresh = getDayOfMonth(yearSelected,monthSelected);
+            int dayRefresh = getDayOfMonth(yearSelected, monthSelected);
             Calendar calendar = Calendar.getInstance();
             int yearNow = calendar.get(Calendar.YEAR);
-            int monthNow = calendar.get(Calendar.MONTH)+1;
-            if (yearSelected == yearNow && monthSelected == monthNow){
+            int monthNow = calendar.get(Calendar.MONTH) + 1;
+            if (yearSelected == yearNow && monthSelected == monthNow) {
                 dayRefresh -= 1;
             }
             mainView.getProduceImportView().getDayComboBox().removeAllItems();
@@ -1057,8 +1109,8 @@ public class MainController {
     }
 
     //importProduceDayComboBoxListener
-    private void importProduceDayComboBoxListener(){
-        if (mainView.getProduceImportView().getDayComboBox().getItemCount() != 0){
+    private void importProduceDayComboBoxListener() {
+        if (mainView.getProduceImportView().getDayComboBox().getItemCount() != 0) {
             mainView.getProduceImportView().getConfirmButton().setEnabled(true);
         } else {
             mainView.getProduceImportView().getConfirmButton().setEnabled(false);
@@ -1066,7 +1118,7 @@ public class MainController {
     }
 
     //importProduceToDatabase
-    private void importProduceToDatabase(){
+    private void importProduceToDatabase() {
         int year = (int) mainView.getProduceImportView().getYearComboBox().getSelectedItem();
         int month = (int) mainView.getProduceImportView().getMonthComboBox().getSelectedItem();
         int day = (int) mainView.getProduceImportView().getDayComboBox().getSelectedItem();
@@ -1076,19 +1128,19 @@ public class MainController {
         int monthNow = calendar.get(Calendar.MONTH) + 1;
         int dayNow = calendar.get(Calendar.DATE);
 
-        List<Produce> produceList = produceService.getAllProduce(year,month,day);
-        for (Produce produce : produceList){
+        List<Produce> produceList = produceService.getAllProduce(year, month, day);
+        for (Produce produce : produceList) {
             produce.setYear(yearNow);
             produce.setMonth(monthNow);
             produce.setDay(dayNow);
         }
         boolean isSuccess = produceService.insertBatchProduce(produceList);
-        if (isSuccess){
-            JOptionPane.showMessageDialog(null,"导入成功","导入结果",JOptionPane.INFORMATION_MESSAGE);
+        if (isSuccess) {
+            JOptionPane.showMessageDialog(null, "导入成功", "导入结果", JOptionPane.INFORMATION_MESSAGE);
             mainView.getProduceImportView().setVisible(false);
             loadProduce();
         } else {
-            JOptionPane.showMessageDialog(null,"导入失败","导入结果",JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "导入失败", "导入结果", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -1103,53 +1155,53 @@ public class MainController {
 
         //下面的方法将阻塞，直到【用户按下保存按钮且“文件名”文本框不为空】或【用户按下取消按钮】
         int option = chooser.showSaveDialog(null);
-        if(option==JFileChooser.APPROVE_OPTION){    //假如用户选择了保存
+        if (option == JFileChooser.APPROVE_OPTION) {    //假如用户选择了保存
             File file = chooser.getSelectedFile();
 
             String fileName = chooser.getName(file);   //从文件名输入框中获取文件名
 
             //假如用户填写的文件名不带我们制定的后缀名，那么我们给它添上后缀
-            if(!fileName.endsWith(".xls") && !fileName.endsWith(".xlsx")){
-                file=new File(chooser.getCurrentDirectory(),fileName+".xlsx");
+            if (!fileName.endsWith(".xls") && !fileName.endsWith(".xlsx")) {
+                file = new File(chooser.getCurrentDirectory(), fileName + ".xlsx");
             }
             try {
                 FileOutputStream fos = new FileOutputStream(file);
 
-                String title = year+"-"+month+"-"+day+"\t"+"进度报表";
+                String title = year + "-" + month + "-" + day + "\t" + "进度报表";
                 String[] headers = {"名称", "下单", "备注", "木工", "备注", "油房", "备注", "包装", "备注",
                         "特定", "备注", "北京", "备注", "北京特定", "备注", "本地合同", "备注", "外地合同", "备注", "等待", "备注"};
-                List<Produce> produceList = produceService.getAllProduce(year,month,day);
+                List<Produce> produceList = produceService.getAllProduce(year, month, day);
                 List<List<String>> listList = new ArrayList<>();
-                for (Produce produce : produceList){
+                for (Produce produce : produceList) {
                     List<String> list = new ArrayList<>();
-                    list.add(0,produce.getProductName());
-                    list.add(1,String.valueOf(produce.getXiaDan()));
-                    list.add(2,produce.getXiaDanComment());
-                    list.add(3,String.valueOf(produce.getMuGong()));
-                    list.add(4,produce.getMuGongComment());
-                    list.add(5,String.valueOf(produce.getYouFang()));
-                    list.add(6,produce.getYouFangComment());
-                    list.add(7,String.valueOf(produce.getBaoZhuang()));
-                    list.add(8,produce.getBaoZhuangComment());
-                    list.add(9,String.valueOf(produce.getTeDing()));
-                    list.add(10,produce.getTeDingComment());
-                    list.add(11,String.valueOf(produce.getBeiJing()));
-                    list.add(12,produce.getBeiJingComment());
-                    list.add(13,String.valueOf(produce.getBeiJingTeDing()));
-                    list.add(14,produce.getBeiJingTeDingComment());
-                    list.add(15,String.valueOf(produce.getBenDiHeTong()));
-                    list.add(16,produce.getBenDiHeTongComment());
-                    list.add(17,String.valueOf(produce.getWaiDiHeTong()));
-                    list.add(18,produce.getWaiDiHeTongComment());
-                    list.add(19,String.valueOf(produce.getDeng()));
-                    list.add(20,produce.getDengComment());
+                    list.add(0, produce.getProductName());
+                    list.add(1, String.valueOf(produce.getXiaDan()));
+                    list.add(2, produce.getXiaDanComment());
+                    list.add(3, String.valueOf(produce.getMuGong()));
+                    list.add(4, produce.getMuGongComment());
+                    list.add(5, String.valueOf(produce.getYouFang()));
+                    list.add(6, produce.getYouFangComment());
+                    list.add(7, String.valueOf(produce.getBaoZhuang()));
+                    list.add(8, produce.getBaoZhuangComment());
+                    list.add(9, String.valueOf(produce.getTeDing()));
+                    list.add(10, produce.getTeDingComment());
+                    list.add(11, String.valueOf(produce.getBeiJing()));
+                    list.add(12, produce.getBeiJingComment());
+                    list.add(13, String.valueOf(produce.getBeiJingTeDing()));
+                    list.add(14, produce.getBeiJingTeDingComment());
+                    list.add(15, String.valueOf(produce.getBenDiHeTong()));
+                    list.add(16, produce.getBenDiHeTongComment());
+                    list.add(17, String.valueOf(produce.getWaiDiHeTong()));
+                    list.add(18, produce.getWaiDiHeTongComment());
+                    list.add(19, String.valueOf(produce.getDeng()));
+                    list.add(20, produce.getDengComment());
                     listList.add(list);
                 }
-                Excel.exportData(title,headers,listList,fos);
+                Excel.exportData(title, headers, listList, fos, false);
                 fos.close();
-                JOptionPane.showMessageDialog(null,"导出成功","导出结果",JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "导出成功", "导出结果", JOptionPane.INFORMATION_MESSAGE);
             } catch (IOException e) {
-                JOptionPane.showMessageDialog(null,"导出失败","导出结果",JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "导出失败", "导出结果", JOptionPane.ERROR_MESSAGE);
                 System.err.println("IO异常");
                 e.printStackTrace();
             }
@@ -1214,12 +1266,14 @@ public class MainController {
         List<Output> outputList = outputService.getAllOutput(year, month);
 
         //结果集设置导出按钮能否点击
-        if (outputList.size() == 0){
+        if (outputList.size() == 0) {
             mainView.getOutput().getExportButton().setEnabled(false);
         } else {
             mainView.getOutput().getExportButton().setEnabled(true);
         }
 
+        float baoZhuangPriceSum = 0;
+        float teDingPriceSum = 0;
         Vector<Vector<java.io.Serializable>> data = new Vector<>();
         for (Output output : outputList) {
             Vector<java.io.Serializable> row = new Vector<>();
@@ -1229,58 +1283,65 @@ public class MainController {
             row.add(output.getMuGong());
             row.add(output.getYouFang());
             row.add(output.getBaoZhuang());
+            row.add(output.getBaoZhuangJinE());
             row.add(output.getTeDing());
+            row.add(output.getTeDingJinE());
             data.add(row);
+            baoZhuangPriceSum += output.getBaoZhuangJinE();
+            teDingPriceSum += output.getTeDingJinE();
         }
         mainView.getOutput().getOutputTableModel().setDataVector(data, initTitle(outputTitles));
         hideColumn(mainView.getOutput().getOutputTable(), 0);
+        mainView.getOutput().getBaoZhuangPriceSumLabel().setText(String.valueOf(baoZhuangPriceSum));
+        mainView.getOutput().getTeDingPriceSumLabel().setText(String.valueOf(teDingPriceSum));
     }
 
 
     //changeOutputView
-    private void changeOutputView(){
-        int selectedRow = (int) mainView.getOutput().getOutputTable().getSelectedRow();
-        if (selectedRow == -1){
+    private void changeOutputView() {
+        int selectedRow = mainView.getOutput().getOutputTable().getSelectedRow();
+        if (selectedRow == -1) {
             JOptionPane.showMessageDialog(null, "没有选中数据", "提示", JOptionPane.INFORMATION_MESSAGE);
         } else {
             //下拉框初始化
             mainView.getOutputChangeView().getChooseComboBox().removeAllItems();
             String[] outputTitles = {"下单", "木工", "油房", "包装", "特定"};
-            for (String s : outputTitles){
+            for (String s : outputTitles) {
                 mainView.getOutputChangeView().getChooseComboBox().addItem(s);
             }
             //页面数据初始化
-            mainView.getOutputChangeView().getProductIdValueLabel().setText(String.valueOf((int) mainView.getOutput().getOutputTable().getValueAt(selectedRow,0)));
-            mainView.getOutputChangeView().getProductNameValueLabel().setText((String) mainView.getOutput().getOutputTable().getValueAt(selectedRow,1));
-            mainView.getOutputChangeView().getNumTextField().setText(String.valueOf((int)mainView.getOutput().getOutputTable().getValueAt(selectedRow,2)));//默认下单数据
+            mainView.getOutputChangeView().getProductIdValueLabel().setText(String.valueOf((int) mainView.getOutput().getOutputTable().getValueAt(selectedRow, 0)));
+            mainView.getOutputChangeView().getProductNameTextFiled().setText((String) mainView.getOutput().getOutputTable().getValueAt(selectedRow, 1));
+            mainView.getOutputChangeView().getNumTextField().setText(String.valueOf((int) mainView.getOutput().getOutputTable().getValueAt(selectedRow, 2)));//默认下单数据
             mainView.getOutputChangeView().setVisible(true);
         }
     }
+
     //changeOutputView下拉框listener
-    private void changeOutputComboBoxListener(){
-        if (mainView.getOutputChangeView().getChooseComboBox().getItemCount() == 5){
+    private void changeOutputComboBoxListener() {
+        if (mainView.getOutputChangeView().getChooseComboBox().getItemCount() == 5) {
             int selectedRow = mainView.getOutput().getOutputTable().getSelectedRow();
             int num = 0;
             String choose = (String) mainView.getOutputChangeView().getChooseComboBox().getSelectedItem();
-            switch (choose){
-                case "下单":{
-                    num = (int) mainView.getOutput().getOutputTable().getValueAt(selectedRow,2);
+            switch (choose) {
+                case "下单": {
+                    num = (int) mainView.getOutput().getOutputTable().getValueAt(selectedRow, 2);
                     break;
                 }
-                case "木工":{
-                    num = (int) mainView.getOutput().getOutputTable().getValueAt(selectedRow,3);
+                case "木工": {
+                    num = (int) mainView.getOutput().getOutputTable().getValueAt(selectedRow, 3);
                     break;
                 }
-                case "油房":{
-                    num = (int) mainView.getOutput().getOutputTable().getValueAt(selectedRow,4);
+                case "油房": {
+                    num = (int) mainView.getOutput().getOutputTable().getValueAt(selectedRow, 4);
                     break;
                 }
-                case "包装":{
-                    num = (int) mainView.getOutput().getOutputTable().getValueAt(selectedRow,5);
+                case "包装": {
+                    num = (int) mainView.getOutput().getOutputTable().getValueAt(selectedRow, 5);
                     break;
                 }
-                case "特定":{
-                    num = (int) mainView.getOutput().getOutputTable().getValueAt(selectedRow,6);
+                case "特定": {
+                    num = (int) mainView.getOutput().getOutputTable().getValueAt(selectedRow, 7);
                     break;
                 }
             }
@@ -1289,12 +1350,12 @@ public class MainController {
     }
 
     //saveChangeOutput
-    private void saveChangeOutputToDatabase(){
+    private void saveChangeOutputToDatabase() {
         Output output = new Output(
                 (int) mainView.getOutput().getYearComboBox().getSelectedItem(),
                 (int) mainView.getOutput().getMonthComboBox().getSelectedItem(),
                 Integer.valueOf(mainView.getOutputChangeView().getProductIdValueLabel().getText()),
-                mainView.getOutputChangeView().getProductNameValueLabel().getText()
+                mainView.getOutputChangeView().getProductNameTextFiled().getText()
         );
         boolean isDataRight = true;
         //获取修改值
@@ -1305,36 +1366,38 @@ public class MainController {
             isDataRight = false;
             JOptionPane.showMessageDialog(null, "数量数据有错误", "错误", JOptionPane.ERROR_MESSAGE);
         }
-        if (changeNum < 0){
+        if (changeNum <= 0) {
             isDataRight = false;
-            JOptionPane.showMessageDialog(null, "数量数据不能为负数", "错误", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "数量数据不能为0或负数", "错误", JOptionPane.ERROR_MESSAGE);
         }
-        if (isDataRight){
+        if (isDataRight) {
             String choose = (String) mainView.getOutputChangeView().getChooseComboBox().getSelectedItem();
-            switch (choose){
-                case "下单":{
+            switch (choose) {
+                case "下单": {
                     output.setXiaDan(changeNum);
                     break;
                 }
-                case "木工":{
+                case "木工": {
                     output.setMuGong(changeNum);
                     break;
                 }
-                case "油房":{
+                case "油房": {
                     output.setYouFang(changeNum);
                     break;
                 }
-                case "包装":{
+                case "包装": {
                     output.setBaoZhuang(changeNum);
+                    output.setBaoZhuangJinE(changeNum * productService.getOne(output.getProductId()).getProductPrice());
                     break;
                 }
-                case "特定":{
+                case "特定": {
                     output.setTeDing(changeNum);
+                    output.setTeDingJinE(changeNum * productService.getOne(output.getProductId()).getProductPrice());
                     break;
                 }
             }
             boolean isChange = outputService.changeOutput(output);
-            if (isChange){
+            if (isChange) {
                 JOptionPane.showMessageDialog(null, "修改成功", "修改结果", JOptionPane.INFORMATION_MESSAGE);
                 mainView.getOutputChangeView().setVisible(false);
                 loadOutput();
@@ -1354,37 +1417,39 @@ public class MainController {
 
         //下面的方法将阻塞，直到【用户按下保存按钮且“文件名”文本框不为空】或【用户按下取消按钮】
         int option = chooser.showSaveDialog(null);
-        if(option==JFileChooser.APPROVE_OPTION){    //假如用户选择了保存
+        if (option == JFileChooser.APPROVE_OPTION) {    //假如用户选择了保存
             File file = chooser.getSelectedFile();
 
             String fileName = chooser.getName(file);   //从文件名输入框中获取文件名
 
             //假如用户填写的文件名不带我们制定的后缀名，那么我们给它添上后缀
-            if(!fileName.endsWith(".xls") && !fileName.endsWith(".xlsx")){
-                file=new File(chooser.getCurrentDirectory(),fileName+".xlsx");
+            if (!fileName.endsWith(".xls") && !fileName.endsWith(".xlsx")) {
+                file = new File(chooser.getCurrentDirectory(), fileName + ".xlsx");
             }
             try {
                 FileOutputStream fos = new FileOutputStream(file);
 
-                String title = year+"-"+month+"\t"+"产值报表";
-                String[] headers = {"名称", "下单", "木工", "油房", "包装", "特定"};
-                List<Output> outputList = outputService.getAllOutput(year,month);
+                String title = year + "-" + month + "\t" + "产值报表";
+                String[] headers = {"名称", "下单", "木工", "油房", "包装", "金额", "特定", "金额"};
+                List<Output> outputList = outputService.getAllOutput(year, month);
                 List<List<String>> listList = new ArrayList<>();
-                for (Output output : outputList){
+                for (Output output : outputList) {
                     List<String> list = new ArrayList<>();
-                    list.add(0,output.getProductName());
-                    list.add(1,String.valueOf(output.getXiaDan()));
-                    list.add(2,String.valueOf(output.getMuGong()));
-                    list.add(3,String.valueOf(output.getYouFang()));
-                    list.add(4,String.valueOf(output.getBaoZhuang()));
-                    list.add(5,String.valueOf(output.getTeDing()));
+                    list.add(0, output.getProductName());
+                    list.add(1, String.valueOf(output.getXiaDan()));
+                    list.add(2, String.valueOf(output.getMuGong()));
+                    list.add(3, String.valueOf(output.getYouFang()));
+                    list.add(4, String.valueOf(output.getBaoZhuang()));
+                    list.add(5, String.valueOf(output.getBaoZhuangJinE()));
+                    list.add(6, String.valueOf(output.getTeDing()));
+                    list.add(7, String.valueOf(output.getTeDingJinE()));
                     listList.add(list);
                 }
-                Excel.exportData(title,headers,listList,fos);
+                Excel.exportData(title, headers, listList, fos, true);
                 fos.close();
-                JOptionPane.showMessageDialog(null,"导出成功","导出结果",JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "导出成功", "导出结果", JOptionPane.INFORMATION_MESSAGE);
             } catch (IOException e) {
-                JOptionPane.showMessageDialog(null,"导出失败","导出结果",JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "导出失败", "导出结果", JOptionPane.ERROR_MESSAGE);
                 System.err.println("IO异常");
                 e.printStackTrace();
             }
