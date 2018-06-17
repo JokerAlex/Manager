@@ -11,7 +11,9 @@
         <result property="muGong" column="output_mugong"/>
         <result property="youFang" column="output_youfang"/>
         <result property="baoZhuang" column="output_baozhuang"/>
+        <result property="baoZhuangJinE" column="output_baozhuang_jine"/>
         <result property="teDing" column="output_teding"/>
+        <result property="teDingJinE" column="output_teding_jine"/>
     </resultMap>
 
     <!-- 根据年月获取产值 -->
@@ -25,7 +27,9 @@
             output_mugong,
             output_youfang,
             output_baozhuang,
-            output_teding
+            output_baozhuang_jine,
+            output_teding,
+            output_teding_jine
         FROM output
         WHERE years_years_id = #{year} AND month_month_id = #{month};
     </select>
@@ -41,7 +45,9 @@
             output_mugong,
             output_youfang,
             output_baozhuang,
-            output_teding
+            output_baozhuang_jine,
+            output_teding,
+            output_teding_jine
         FROM output
         WHERE years_years_id = #{year} AND month_month_id = #{month} AND output_product_id = #{productId};
     </select>
@@ -56,11 +62,12 @@
     <update id="changeOutput" parameterType="Output">
         UPDATE output
         <set>
+            <if test="productName != null">output_product_name = #{productName},</if>
             <if test="xiaDan != 0">output_xiadan = #{xiaDan},</if>
             <if test="muGong != 0">output_mugong = #{muGong},</if>
             <if test="youFang != 0">output_youfang = #{youFang},</if>
-            <if test="baoZhuang != 0">output_baozhuang = #{baoZhuang},</if>
-            <if test="teDing != 0">output_teding = #{teDing}</if>
+            <if test="baoZhuang != 0">output_baozhuang = #{baoZhuang},output_baozhuang_jine = #{baoZhuangJinE}</if>
+            <if test="teDing != 0">output_teding = #{teDing},output_teding_jine = #{teDingJinE}</if>
         </set>
         WHERE years_years_id = #{year} AND month_month_id = #{month} AND output_product_id = #{productId};
     </update>
@@ -72,8 +79,8 @@
             <if test="xiaDan != 0">output_xiadan = output_xiadan + #{xiaDan},</if>
             <if test="muGong != 0">output_mugong = output_mugong + #{muGong},</if>
             <if test="youFang != 0">output_youfang = output_youfang + #{youFang},</if>
-            <if test="baoZhuang != 0">output_baozhuang = output_baozhuang + #{baoZhuang},</if>
-            <if test="teDing != 0">output_teding = output_teding + #{teDing}</if>
+            <if test="baoZhuang != 0">output_baozhuang = output_baozhuang + #{baoZhuang},output_baozhuang_jine = #{baoZhuangJinE}</if>
+            <if test="teDing != 0">output_teding = output_teding + #{teDing},output_teding_jine = #{teDingJinE}</if>
         </set>
         WHERE years_years_id = #{year}
         AND month_month_id = #{month}
