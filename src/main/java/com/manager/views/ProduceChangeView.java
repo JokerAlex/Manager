@@ -7,15 +7,10 @@ import java.awt.*;
 
 @Component
 public class ProduceChangeView extends JFrame {
-    private JLabel productIdLabel;
     private JLabel productIdValueLabel;
-    private JLabel productNameLabel;
-    private JLabel productNameValueLabel;
-    private JLabel chooseLabel;
+    private JTextField productNameTextField;
     private JComboBox chooseComboBox;
-    private JLabel numLabel;
     private JTextField numTextField;
-    private JLabel commentLabel;
     private JTextArea commentTextArea;
     private JButton confirmButton;
     private JButton cancelButton;
@@ -30,28 +25,28 @@ public class ProduceChangeView extends JFrame {
         Dimension dimensionLabel = new Dimension(100, 30);
         Dimension dimensionText = new Dimension(150, 30);
 
-        productIdLabel = new JLabel("数据编号：");
+        JLabel productIdLabel = new JLabel("数据编号：");
         productIdLabel.setPreferredSize(dimensionLabel);
         productIdValueLabel = new JLabel();
         productIdValueLabel.setPreferredSize(dimensionText);
-        productNameLabel = new JLabel("产品名称：");
+        JLabel productNameLabel = new JLabel("产品名称：");
         productNameLabel.setPreferredSize(dimensionLabel);
-        productNameValueLabel = new JLabel();
-        productNameValueLabel.setPreferredSize(dimensionText);
+        productNameTextField = new JTextField();
+        productNameTextField.setPreferredSize(dimensionText);
 
-        chooseLabel = new JLabel("选择修改项：");
+        JLabel chooseLabel = new JLabel("选择修改项：");
         chooseLabel.setPreferredSize(dimensionLabel);
 
         chooseComboBox = new JComboBox();
         chooseComboBox.setPreferredSize(dimensionText);
 
-        numLabel = new JLabel("  修改为：");
+        JLabel numLabel = new JLabel("  修改为：");
         numLabel.setPreferredSize(dimensionLabel);
 
         numTextField = new JTextField();
         numTextField.setPreferredSize(dimensionText);
 
-        commentLabel = new JLabel("  备    注:");
+        JLabel commentLabel = new JLabel("  备    注:");
         commentLabel.setPreferredSize(dimensionLabel);
 
         commentTextArea = new JTextArea();
@@ -66,7 +61,7 @@ public class ProduceChangeView extends JFrame {
 
         JPanel productNamePanel = new JPanel();
         productNamePanel.add(productNameLabel);
-        productNamePanel.add(productNameValueLabel);
+        productNamePanel.add(productNameTextField);
 
         JPanel choosePanel = new JPanel();
         choosePanel.add(chooseLabel);
@@ -120,8 +115,7 @@ public class ProduceChangeView extends JFrame {
         return productIdValueLabel;
     }
 
-    public JLabel getProductNameValueLabel() {
-        return productNameValueLabel;
+    public JTextField getProductNameTextField() {
+        return productNameTextField;
     }
-
 }

@@ -7,13 +7,10 @@ import java.awt.*;
 
 @Component
 public class OutputChangeView extends JFrame {
-    private JLabel productIdLabel;
     private JLabel productIdValueLabel;
-    private JLabel productNameLabel;
-    private JLabel productNameValueLabel;
-    private JLabel chooseLabel;
+    //private JLabel productNameValueLabel;
+    private JTextField productNameTextFiled;
     private JComboBox chooseComboBox;
-    private JLabel numLabel;
     private JTextField numTextField;
     private JButton confirmButton;
     private JButton cancelButton;
@@ -28,22 +25,22 @@ public class OutputChangeView extends JFrame {
         Dimension dimensionLabel = new Dimension(100, 30);
         Dimension dimensionText = new Dimension(150, 30);
 
-        productIdLabel = new JLabel("数据编号：");
+        JLabel productIdLabel = new JLabel("数据编号：");
         productIdLabel.setPreferredSize(dimensionLabel);
         productIdValueLabel = new JLabel();
         productIdValueLabel.setPreferredSize(dimensionText);
-        productNameLabel = new JLabel("产品名称：");
+        JLabel productNameLabel = new JLabel("产品名称：");
         productNameLabel.setPreferredSize(dimensionLabel);
-        productNameValueLabel = new JLabel();
-        productNameValueLabel.setPreferredSize(dimensionText);
+        productNameTextFiled = new JTextField();
+        productNameTextFiled.setPreferredSize(dimensionText);
 
-        chooseLabel = new JLabel("选择修改项：");
+        JLabel chooseLabel = new JLabel("选择修改项：");
         chooseLabel.setPreferredSize(dimensionLabel);
 
         chooseComboBox = new JComboBox();
         chooseComboBox.setPreferredSize(dimensionText);
 
-        numLabel = new JLabel("  修改为：");
+        JLabel numLabel = new JLabel("  修改为：");
         numLabel.setPreferredSize(dimensionLabel);
 
         numTextField = new JTextField();
@@ -58,7 +55,7 @@ public class OutputChangeView extends JFrame {
 
         JPanel productNamePanel = new JPanel();
         productNamePanel.add(productNameLabel);
-        productNamePanel.add(productNameValueLabel);
+        productNamePanel.add(productNameTextFiled);
 
         JPanel choosePanel = new JPanel();
         choosePanel.add(chooseLabel);
@@ -89,8 +86,8 @@ public class OutputChangeView extends JFrame {
         return productIdValueLabel;
     }
 
-    public JLabel getProductNameValueLabel() {
-        return productNameValueLabel;
+    public JTextField getProductNameTextFiled() {
+        return productNameTextFiled;
     }
 
     public JComboBox getChooseComboBox() {
