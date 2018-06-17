@@ -27,9 +27,13 @@ public class ProductService {
         return productMapper.getAll();
     }
 
+    public Product getOne(int productId){
+        return productMapper.getOne(productId);
+    }
+
     public List<Product> searchProduct(String name){
         if (name != null){
-            return productMapper.getOne(name);
+            return productMapper.searchProduct(name);
         }
         return null;
     }

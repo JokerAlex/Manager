@@ -9,7 +9,9 @@ public interface ProductMapper {
 
     List<Product> getAll();
 
-    List<Product> getOne(@Param("productName") String productName);
+    List<Product> searchProduct(@Param("productName") String productName);
+
+    Product getOne(int productId);
 
     int insertOne(Product product);
 
