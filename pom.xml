@@ -48,13 +48,6 @@
             <version>${log4j2.version}</version>
         </dependency>
 
-        <!-- 数据库 -->
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.41</version>
-            <scope>runtime</scope>
-        </dependency>
         <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
         <dependency>
             <groupId>mysql</groupId>
