@@ -15,17 +15,20 @@
         SELECT product_id,product_name,product_price,product_comment FROM product;
     </select>
 
+    <!-- 查询产品 -->
+    <select id="searchProduct" resultMap="productMap">
+        SELECT product_id,product_name,product_price,product_comment FROM product
+        <where>
+            <if test="productName != null and !productName.trim().equals(&quot;&quot;)">
+                product_name LIKE CONCAT('%', #{productName},'%')
+            </if>
+        </where>
+    </select>
+
     <!-- 查询某件产品 -->
     <select id="getOne" resultMap="productMap">
         SELECT product_id,product_name,product_price,product_comment FROM product
-        <where>
-            <if test="productId != null and !product.trim().equals(&quot;&quot;)">
-                product_id = #{productId}
-            </if>
-            <if test="productName != null and !product.trim().equals(&quot;&quot;)">
-                product_name LIKE CONCAT('%', #{tableName},'%')
-            </if>
-        </where>
+        WHERE product_id = #{productId};
     </select>
 
     <!-- 插入一件产品 -->
