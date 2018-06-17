@@ -9,7 +9,7 @@ import java.awt.*;
 @Component
 public class ProducePanel extends JPanel {
     private JButton addButton;//产品进度添加
-    private JButton updateButotn;//进度更新
+    private JButton updateButton;//进度更新
     private JButton delButton;//删除进度
     private JButton importButton;//导入进度
     private JButton exportButton;//导出按钮
@@ -47,7 +47,7 @@ public class ProducePanel extends JPanel {
         JScrollPane scrollPane = new JScrollPane(produceTable);
 
         addButton = new JButton("添加产品");
-        updateButotn = new JButton("进度更新");
+        updateButton = new JButton("进度更新");
         delButton = new JButton("删除");
         importButton = new JButton("导入进度");
         exportButton = new JButton("导出");
@@ -62,7 +62,7 @@ public class ProducePanel extends JPanel {
 
         JPanel buttonsPanel = new JPanel();
         buttonsPanel.add(addButton);
-        buttonsPanel.add(updateButotn);
+        buttonsPanel.add(updateButton);
         buttonsPanel.add(delButton);
         buttonsPanel.add(changeButton);
         buttonsPanel.add(exportButton);
@@ -78,8 +78,8 @@ public class ProducePanel extends JPanel {
         return addButton;
     }
 
-    public JButton getUpdateButotn() {
-        return updateButotn;
+    public JButton getUpdateButton() {
+        return updateButton;
     }
 
     public JButton getDelButton() {
