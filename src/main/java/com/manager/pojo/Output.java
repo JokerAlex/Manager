@@ -15,7 +15,11 @@ public class Output {
 
     private int baoZhuang;
 
+    private float baoZhuangJinE;
+
     private int teDing;
+
+    private float teDingJinE;
 
     public Output() {
     }
@@ -27,7 +31,7 @@ public class Output {
         this.productName = productName;
     }
 
-    public Output(int year, int month, int productId, String productName, int xiaDan, int muGong, int youFang, int baoZhuang, int teDing) {
+    public Output(int year, int month, int productId, String productName, int xiaDan, int muGong, int youFang, int baoZhuang, float baoZhuangJinE, int teDing, float teDingJinE) {
         this.year = year;
         this.month = month;
         this.productId = productId;
@@ -36,7 +40,9 @@ public class Output {
         this.muGong = muGong;
         this.youFang = youFang;
         this.baoZhuang = baoZhuang;
+        this.baoZhuangJinE = baoZhuangJinE;
         this.teDing = teDing;
+        this.teDingJinE = teDingJinE;
     }
 
     public int getYear() {
@@ -111,6 +117,22 @@ public class Output {
         this.teDing = teDing;
     }
 
+    public float getBaoZhuangJinE() {
+        return baoZhuangJinE;
+    }
+
+    public void setBaoZhuangJinE(float baoZhuangJinE) {
+        this.baoZhuangJinE = baoZhuangJinE;
+    }
+
+    public float getTeDingJinE() {
+        return teDingJinE;
+    }
+
+    public void setTeDingJinE(float teDingJinE) {
+        this.teDingJinE = teDingJinE;
+    }
+
     @Override
     public String toString() {
         return "Output{" +
@@ -122,7 +144,9 @@ public class Output {
                 ", muGong=" + muGong +
                 ", youFang=" + youFang +
                 ", baoZhuang=" + baoZhuang +
+                ", baoZhuangJinE=" + baoZhuangJinE +
                 ", teDing=" + teDing +
+                ", teDingJinE=" + teDingJinE +
                 '}';
     }
 }

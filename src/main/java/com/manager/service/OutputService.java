@@ -28,14 +28,15 @@ public class OutputService {
         return outputMapper.getAll(year,month);
     }
 
-    public boolean getOne(Output output){
+    public Output getOne(Output output){
         if (output == null){
-            return false;
+            return null;
         }
-        if (outputMapper.getOne(output) != null){
-            return true;
+        Output outputResult = outputMapper.getOne(output);
+        if (outputResult != null){
+            return outputResult;
         }
-        return false;
+        return null;
     }
 
     /**
