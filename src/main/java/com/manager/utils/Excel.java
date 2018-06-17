@@ -153,7 +153,7 @@ public class Excel {
 
 
     //导出excel文件
-    public static void exportData(String title, String[] headers,List<List<String>> list, FileOutputStream fileOutputStream) throws IOException {
+    public static void exportData(String title, String[] headers,List<List<String>> list, FileOutputStream fileOutputStream, boolean isOutput) throws IOException {
         XSSFWorkbook wb = new XSSFWorkbook();
         Sheet sheet = wb.createSheet();
         //单元格样式
@@ -189,6 +189,8 @@ public class Excel {
             cell.setCellValue(headers[i]);
             cell.setCellStyle(cellStyle);
         }
+        float baoZhuangPriceSum = 0;
+        float teDingPriceSum = 0;
         //填充数据,从第2行开始
         for (int i=0;i<list.size();i++){
             row = sheet.createRow(i+2);
@@ -196,7 +198,25 @@ public class Excel {
                 cell = row.createCell(j);
                 cell.setCellValue(list.get(i).get(j));
                 cell.setCellStyle(cellStyle);
+                if (isOutput){
+                    if (j == 5){
+                        baoZhuangPriceSum += Float.valueOf(list.get(i).get(j));
+                    } else if (j == 7){
+                        teDingPriceSum += Float.valueOf(list.get(i).get(j));
+                    }
+                }
             }
+        }
+        if (isOutput) {
+            row = sheet.createRow(sheet.getLastRowNum() + 1);
+            cell = row.createCell(4);
+            cell.setCellValue("包装金额合计");
+            cell = row.createCell(5);
+            cell.setCellValue(baoZhuangPriceSum);
+            cell = row.createCell(6);
+            cell.setCellValue("特定金额合计");
+            cell = row.createCell(7);
+            cell.setCellValue(teDingPriceSum);
         }
         wb.write(fileOutputStream);
     }

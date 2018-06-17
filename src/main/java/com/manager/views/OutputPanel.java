@@ -14,6 +14,9 @@ public class OutputPanel extends JPanel {
     private JTable outputTable;//表格
     private DefaultTableModel outputTableModel;
 
+    private JLabel baoZhuangPriceSumLabel;
+    private JLabel teDingPriceSumLabel;
+
     private JComboBox yearComboBox;
     private JComboBox monthComboBox;
 
@@ -42,6 +45,16 @@ public class OutputPanel extends JPanel {
         JScrollPane scrollPane = new JScrollPane(outputTable);
 
 
+        Dimension dimension = new Dimension(100,30);
+        JLabel baoZhuangLabel = new JLabel("包装金额合计：");
+        baoZhuangLabel.setPreferredSize(dimension);
+        baoZhuangPriceSumLabel = new JLabel();
+        baoZhuangPriceSumLabel.setPreferredSize(dimension);
+        JLabel teDingLabel = new JLabel("特定金额合计：");
+        teDingLabel.setPreferredSize(dimension);
+        teDingPriceSumLabel = new JLabel();
+        teDingPriceSumLabel.setPreferredSize(dimension);
+
         exportButton = new JButton("导出");
 
         changeButton = new JButton("修改");
@@ -50,15 +63,25 @@ public class OutputPanel extends JPanel {
         datePanel.add(yearComboBox);
         datePanel.add(monthComboBox);
 
+        JPanel sumPanel = new JPanel();
+        sumPanel.add(baoZhuangLabel);
+        sumPanel.add(baoZhuangPriceSumLabel);
+        sumPanel.add(teDingLabel);
+        sumPanel.add(teDingPriceSumLabel);
+
         JPanel buttonsPanel = new JPanel();
         buttonsPanel.add(changeButton);
         buttonsPanel.add(exportButton);
+
+        JPanel bottomPanel = new JPanel(new BorderLayout());
+        bottomPanel.add(sumPanel,BorderLayout.CENTER);
+        bottomPanel.add(buttonsPanel,BorderLayout.SOUTH);
 
 
         this.setLayout(new BorderLayout());
         this.add(datePanel,BorderLayout.NORTH);
         this.add(scrollPane,BorderLayout.CENTER);
-        this.add(buttonsPanel,BorderLayout.SOUTH);
+        this.add(bottomPanel,BorderLayout.SOUTH);
     }
 
     public JButton getExportButton() {
@@ -85,5 +108,11 @@ public class OutputPanel extends JPanel {
         return monthComboBox;
     }
 
+    public JLabel getBaoZhuangPriceSumLabel() {
+        return baoZhuangPriceSumLabel;
+    }
 
+    public JLabel getTeDingPriceSumLabel() {
+        return teDingPriceSumLabel;
+    }
 }
