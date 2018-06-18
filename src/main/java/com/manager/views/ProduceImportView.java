@@ -49,7 +49,7 @@ public class ProduceImportView extends JFrame {
         this.add(infoPanel);
         this.add(datePanel);
         this.add(buttonPanel);
-        this.setSize(300,150);
+        this.setSize(300,170);
         this.setTitle("选择导入日期");
         this.setLocationRelativeTo(null);
         this.setVisible(false);
