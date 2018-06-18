@@ -112,8 +112,16 @@
             produce_deng,
             produce_deng_comment
         FROM produce
-        WHERE years_years_id = #{year} AND month_month_id = #{month} AND day_day_id = #{day};
+        <where>
+            <if test="year != 0">
+                years_years_id = #{year} AND month_month_id = #{month} AND day_day_id = #{day}
+            </if>
+            <if test="productName != null and !productName.trim().equals(&quot;&quot;)">
+                AND produce_product_name LIKE CONCAT('%', #{productName}, '%')
+            </if>
+        </where>
     </select>
+
 
     <!-- 进度更新 -->
     <update id="updateOne" parameterType="Produce">

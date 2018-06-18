@@ -86,6 +86,7 @@ public class MainController {
         mainView.getProduce().getUpdateButton().addActionListener(e -> updateProduceView());
         mainView.getProduce().getDelButton().addActionListener(e -> delProduce());
         mainView.getProduce().getChangeButton().addActionListener(e -> changeProduceView());
+        mainView.getProduce().getSearchButton().addActionListener(e -> loadProduce());
 
         //produceImportView
         mainView.getProduceImportView().getYearComboBox().addActionListener(e -> importProduceYearComboBoxListener());
@@ -450,7 +451,9 @@ public class MainController {
         int month = (int) mainView.getProduce().getMonthComboBox().getSelectedItem();
         int day = (int) mainView.getProduce().getDayComboBox().getSelectedItem();
 
-        List<Produce> produceList = produceService.getAllProduce(year, month, day);
+        String productName = mainView.getProduce().getProductNametextFiled().getText();
+
+        List<Produce> produceList = produceService.getAllProduce(year, month, day,productName);
         if (produceList.size() == 0) {
             mainView.getProduce().getImportButton().setEnabled(true);
             mainView.getProduce().getExportButton().setEnabled(false);
@@ -1128,7 +1131,7 @@ public class MainController {
         int monthNow = calendar.get(Calendar.MONTH) + 1;
         int dayNow = calendar.get(Calendar.DATE);
 
-        List<Produce> produceList = produceService.getAllProduce(year, month, day);
+        List<Produce> produceList = produceService.getAllProduce(year, month, day, null);
         for (Produce produce : produceList) {
             produce.setYear(yearNow);
             produce.setMonth(monthNow);
@@ -1170,7 +1173,7 @@ public class MainController {
                 String title = year + "-" + month + "-" + day + "\t" + "进度报表";
                 String[] headers = {"名称", "下单", "备注", "木工", "备注", "油房", "备注", "包装", "备注",
                         "特定", "备注", "北京", "备注", "北京特定", "备注", "本地合同", "备注", "外地合同", "备注", "等待", "备注"};
-                List<Produce> produceList = produceService.getAllProduce(year, month, day);
+                List<Produce> produceList = produceService.getAllProduce(year, month, day,null);
                 List<List<String>> listList = new ArrayList<>();
                 for (Produce produce : produceList) {
                     List<String> list = new ArrayList<>();

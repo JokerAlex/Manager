@@ -25,8 +25,12 @@ public class ProduceService {
      * @param day
      * @return
      */
-    public List<Produce> getAllProduce(int year,int month,int day){
-        return produceMapper.getAll(year,month,day);
+    public List<Produce> getAllProduce(int year,int month,int day,String productName){
+        if (productName == null){
+            productName = "";
+        }
+        //return produceMapper.getAll(year,month,day,productName);
+        return produceMapper.getAll(year,month,day,productName);
     }
 
     /**

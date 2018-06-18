@@ -17,6 +17,10 @@ public class ProducePanel extends JPanel {
     private JTable produceTable;//表格
     private DefaultTableModel produceTableModel;
 
+    //查询功能
+    private JTextField productNametextFiled;
+    private JButton searchButton;
+
     //时间下拉框
     private JComboBox yearComboBox;
     private JComboBox monthComboBox;
@@ -53,12 +57,27 @@ public class ProducePanel extends JPanel {
         exportButton = new JButton("导出");
         changeButton = new JButton("错误修改");
 
+        JLabel productNameLabel = new JLabel("进度查询：");
+        productNameLabel.setPreferredSize(new Dimension(80,30));
+        productNametextFiled = new JTextField();
+        productNametextFiled.setPreferredSize(new Dimension(120,30));
+        searchButton = new JButton("查询");
+
 
         JPanel datePanel = new JPanel();
         datePanel.add(yearComboBox);
         datePanel.add(monthComboBox);
         datePanel.add(dayComboBox);
         datePanel.add(importButton);
+
+        JPanel searchPanel = new JPanel();
+        searchPanel.add(productNameLabel);
+        searchPanel.add(productNametextFiled);
+        searchPanel.add(searchButton);
+
+        JPanel northPanel = new JPanel(new BorderLayout());
+        northPanel.add(datePanel,BorderLayout.CENTER);
+        northPanel.add(searchPanel,BorderLayout.SOUTH);
 
         JPanel buttonsPanel = new JPanel();
         buttonsPanel.add(addButton);
@@ -69,7 +88,7 @@ public class ProducePanel extends JPanel {
 
 
         this.setLayout(new BorderLayout());
-        this.add(datePanel,BorderLayout.NORTH);
+        this.add(northPanel,BorderLayout.NORTH);
         this.add(scrollPane,BorderLayout.CENTER);
         this.add(buttonsPanel,BorderLayout.SOUTH);
     }
@@ -116,5 +135,13 @@ public class ProducePanel extends JPanel {
 
     public JComboBox getDayComboBox() {
         return dayComboBox;
+    }
+
+    public JTextField getProductNametextFiled() {
+        return productNametextFiled;
+    }
+
+    public JButton getSearchButton() {
+        return searchButton;
     }
 }

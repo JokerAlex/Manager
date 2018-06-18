@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface ProduceMapper {
 
-    List<Produce> getAll(@Param("year") int year, @Param("month") int month, @Param("day") int day);
+    List<Produce> getAll(@Param("year") int year, @Param("month") int month, @Param("day") int day, @Param("productName") String productName);
 
     int insertOne(Produce produce);
 
