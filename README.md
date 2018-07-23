@@ -3,7 +3,7 @@
 ### 登录
 ![img](https://github.com/JokerAlex/ManagerSpring/raw/master/img/1.png)
 ### 产品管理页面
-![img](https://github.com/JokerAlex/ManagerSpring/raw/master/img/1.png)
+![img](https://github.com/JokerAlex/ManagerSpring/raw/master/img/2.png)
 - 添加产品
 ![img](https://github.com/JokerAlex/ManagerSpring/raw/master/img/3.png)
 - 导入产品
